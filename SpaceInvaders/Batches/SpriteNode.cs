@@ -4,31 +4,32 @@ using System.Diagnostics;
 
 namespace SpaceInvaders.Batches
 {
-    class SpriteNode : DLink
+    public class SpriteNode : DLink
     {
         public Sprite pSprite;
+        private SpriteNodeManager pBackSpriteNodeMan;
 
         public SpriteNode() : base()
         {
             this.pSprite = null;
         }
 
-        public void Set(GameSprite.Name name)
-        {
-            this.pSprite = GameSpriteManager.Find(name);
-            Debug.Assert(this.pSprite != null);
-        }
-
-        public void Set(BoxSprite.Name name)
-        {
-            this.pSprite = BoxSpriteManager.Find(name);
-            Debug.Assert(this.pSprite != null);
-        }
-
-        public void Set(ProxySprite pNode)
+        public void Set(Sprite pNode, SpriteNodeManager pSpriteNodeManager)
         {
             Debug.Assert(pNode != null);
             this.pSprite = pNode;
+
+            Debug.Assert(pSprite != null);
+            this.pSprite.SetSpriteNode(this);
+
+            Debug.Assert(pSpriteNodeManager != null);
+            this.pBackSpriteNodeMan = pSpriteNodeManager;
+        }
+
+        public SpriteNodeManager GetNodeManager()
+        {
+            Debug.Assert(this.pBackSpriteNodeMan != null);
+            return this.pBackSpriteNodeMan;
         }
 
         public override void Wash()

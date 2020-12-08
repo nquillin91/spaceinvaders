@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SpaceInvaders.Composites;
+using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders
+namespace SpaceInvaders.GameObjects
 {
     class GameObjectManager : Manager
     {
         private static GameObjectManager pGameObjectManagerInstance = null;
-        private GameObjectNode poNodeCompare;
+        private readonly GameObjectNode poNodeCompare;
         private readonly NullGameObject poNullGameObject;
 
         private GameObjectManager(int reserveSize, int growthSize) : base(reserveSize, growthSize)
@@ -14,7 +15,7 @@ namespace SpaceInvaders
             this.poNodeCompare = new GameObjectNode();
             this.poNullGameObject = new NullGameObject();
 
-            this.poNodeCompare.pGameObj = this.poNullGameObject;
+            this.poNodeCompare.poGameObj = this.poNullGameObject;
         }
 
         public static void Create(int reserveSize = 3, int growthSize = 1)
@@ -55,12 +56,27 @@ namespace SpaceInvaders
             Debug.Assert(pMan != null);
 
             // Compare functions only compares two Nodes
-            pMan.poNodeCompare.pGameObj.name = name;
+            pMan.poNodeCompare.poGameObj.name = name;
 
             GameObjectNode pNode = (GameObjectNode)pMan.BaseFind(pMan.poNodeCompare);
             Debug.Assert(pNode != null);
 
-            return pNode.pGameObj;
+            return pNode.poGameObj;
+        }
+
+        public static GameObjectNode Find(GameObject.Name name, uint instanceId)
+        {
+            GameObjectManager pMan = GameObjectManager.GetInstance();
+            Debug.Assert(pMan != null);
+
+            // Compare functions only compares two Nodes
+            pMan.poNodeCompare.poGameObj.name = name;
+            pMan.poNodeCompare.poGameObj.instanceId = instanceId;
+
+            GameObjectNode pNode = (GameObjectNode)pMan.BaseFind(pMan.poNodeCompare);
+            Debug.Assert(pNode != null);
+
+            return pNode;
         }
 
         public static void Remove(GameObjectNode pNode)
@@ -72,23 +88,71 @@ namespace SpaceInvaders
             pMan.BaseRemove(pNode);
         }
 
+        public static void Remove(GameObject pNode)
+        {
+            Debug.Assert(pNode != null);
+            GameObjectManager pMan = GameObjectManager.GetInstance();
+
+            GameObject pTmp = pNode;
+            GameObject pRoot = null;
+            while (pTmp != null)
+            {
+                pRoot = pTmp;
+                pTmp = (GameObject)Iterator.GetParent(pTmp);
+            }
+
+            GameObjectNode pTree = (GameObjectNode)pMan.poActiveList;
+
+            while (pTree != null)
+            {
+                if (pTree.poGameObj == pRoot)
+                {
+                    // found it
+                    break;
+                }
+                // Goto Next tree
+                pTree = (GameObjectNode)pTree.pNext;
+            }
+
+            Debug.Assert(pTree != null);
+            Debug.Assert(pTree.poGameObj != null);
+            Debug.Assert(pTree.poGameObj != pNode);
+
+            GameObject pParent = (GameObject)Iterator.GetParent(pNode);
+            Debug.Assert(pParent != null);
+
+            // Make sure there is no child before the delete
+            GameObject pChild = (GameObject)Iterator.GetChild(pNode);
+            Debug.Assert(pChild == null);
+
+            // remove the node
+            pParent.Remove(pNode);
+            pParent.Update();
+        }
+
         public static void Update()
         {
             GameObjectManager pMan = GameObjectManager.GetInstance();
             Debug.Assert(pMan != null);
 
-            GameObjectNode pNode = (GameObjectNode)pMan.poActiveList;
+            GameObjectNode pGameObjectNode = (GameObjectNode)pMan.poActiveList;
 
-            while (pNode != null)
+            while (pGameObjectNode != null)
             {
-                // Update the node
-                Debug.Assert(pNode.pGameObj != null);
+                ReverseIterator pRev = new ReverseIterator(pGameObjectNode.poGameObj);
 
-                pNode.pGameObj.Update();
+                Component pNode = pRev.First();
+                while (!pRev.IsDone())
+                {
+                    GameObject pGameObj = (GameObject)pNode;
 
-                pNode = (GameObjectNode)pNode.pNext;
+                    pGameObj.Update();
+
+                    pNode = pRev.Next();
+                }
+
+                pGameObjectNode = (GameObjectNode)pGameObjectNode.pNext;
             }
-
         }
 
         //----------------------------------------------------------------------
@@ -113,7 +177,8 @@ namespace SpaceInvaders
 
             Boolean status = false;
 
-            if (pDataA.pGameObj.GetName() == pDataB.pGameObj.GetName())
+            if (pDataA.poGameObj.GetName() == pDataB.poGameObj.GetName()
+                && pDataA.poGameObj.instanceId == pDataB.poGameObj.instanceId)
             {
                 status = true;
             }

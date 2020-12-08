@@ -5,7 +5,7 @@ namespace SpaceInvaders.Textures
 {
     public class Texture : DLink
     {
-        static private Azul.Texture psDefaultAzulTexture = new Azul.Texture("HotPink.tga");
+        static private readonly Azul.Texture psDefaultAzulTexture = new Azul.Texture("HotPink.tga");
 
         private Name name;
         public Azul.Texture poAzulTexture;
@@ -14,6 +14,7 @@ namespace SpaceInvaders.Textures
         {
             Default,
             SpaceInvaders,
+            NullObject,
             Uninitialized
         }
 

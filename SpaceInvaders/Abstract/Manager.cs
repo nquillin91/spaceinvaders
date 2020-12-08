@@ -3,9 +3,10 @@ using System.Diagnostics;
 
 namespace SpaceInvaders
 {
-    abstract class Manager
+    abstract public class Manager
     {
         protected DLink poActiveList;
+        protected DLink poActiveListTail;
         protected DLink poReserveList;
         protected DLink poReserveListTail;
 
@@ -39,7 +40,7 @@ namespace SpaceInvaders
                     poReserveList = poReserveListTail = pNewNode;
                 } else
                 {
-                    DLink.AddFirst(ref poReserveList, pNewNode);
+                    DLink.AddFirst(ref this.poReserveList, ref this.poReserveListTail, pNewNode);
                 }
 
                 poReserveList.size++;
@@ -48,18 +49,18 @@ namespace SpaceInvaders
 
         protected DLink BaseAddNode()
         {
-            if (poReserveList.size == 0)
+            if (poReserveList == null || poReserveList.size == 0)
             {
                 this.GenerateReserveNodes(this.growthSize);
             }
 
-            DLink pLink = DLink.RemoveFromFront(ref poReserveList);
+            DLink pLink = DLink.RemoveFromFront(ref this.poReserveList);
 
             Debug.Assert(pLink != null);
             Debug.Assert(pLink.pNext == null);
             Debug.Assert(pLink.pPrev == null);
 
-            DLink.AddFirst(ref poActiveList, pLink);
+            DLink.AddFirst(ref this.poActiveList, ref this.poActiveListTail, pLink);
 
             if (poActiveList != null)
             {
@@ -78,15 +79,15 @@ namespace SpaceInvaders
         {
             if (this.CompareNodes(poActiveList, pNode))
             {
-                DLink.RemoveFromFront(ref poActiveList);
+                DLink.RemoveFromFront(ref this.poActiveList);
             } else
             {
-                DLink.RemoveNode(ref poActiveList, pNode);
+                DLink.RemoveNode(ref this.poActiveList, pNode);
             }
 
             pNode.Wash();
 
-            DLink.AddFirst(ref poReserveList, pNode);
+            DLink.AddFirst(ref this.poReserveList, ref this.poReserveListTail, pNode);
 
             if (poActiveList != null)
             {

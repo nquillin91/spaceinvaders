@@ -14,14 +14,13 @@ namespace SpaceInvaders
             this.Wash();
         }
 
-        public static void AddFirst(ref DLink pHead, DLink pNode)
+        public static void AddFirst(ref DLink pHead, ref DLink pTail, DLink pNode)
         {
             Debug.Assert(pNode != null);
 
-            // If we don't have our head node set, let's set it now
             if (pHead == null)
             {
-                pHead = pNode;
+                pHead = pTail = pNode;
             }
             else
             {
@@ -32,14 +31,27 @@ namespace SpaceInvaders
             }
         }
 
-        public static void AddLast(ref DLink pTail, ref DLink pNode)
+        public static void AddLast(ref DLink pHead, ref DLink pTail, DLink pNode)
         {
             Debug.Assert(pNode != null);
-            Debug.Assert(pTail != null);
 
-            pNode.pPrev = pTail;
-            pTail.pNext = pNode;
-            pTail = pNode;
+            if (pTail == null)
+            {
+                pHead = pNode;
+                pTail = pNode;
+                pNode.pNext = null;
+                pNode.pPrev = null;
+            }
+            else
+            {
+                pTail.pNext = pNode;
+                pNode.pPrev = pTail;
+                pNode.pNext = null;
+                pTail = pNode;
+            }
+
+            Debug.Assert(pHead != null);
+            Debug.Assert(pTail != null);
         }
 
         public static void InsertBeforeNode(ref DLink pHead, ref DLink pTargetNode, ref DLink pNode)
@@ -105,6 +117,21 @@ namespace SpaceInvaders
             }
         }
 
+        public static DLink RemoveFromFront(ref DLink pHead)
+        {
+            DLink headNode = pHead;
+
+            if (headNode.pNext != null)
+            {
+                headNode.pNext.pPrev = null;
+            }
+
+            pHead = headNode.pNext;
+            headNode.pNext = null;
+
+            return headNode;
+        }
+
         public static void RemoveNode(ref DLink pHead, DLink pTargetNode)
         {
             Debug.Assert(pHead != null);
@@ -135,19 +162,37 @@ namespace SpaceInvaders
             }
         }
 
-        public static DLink RemoveFromFront(ref DLink pHead)
+        public static void RemoveNode(ref DLink pHead, ref DLink pTail, DLink pTargetNode)
         {
-            DLink headNode = pHead;
+            Debug.Assert(pHead != null);
+            Debug.Assert(pTail != null);
+            Debug.Assert(pTargetNode != null);
 
-            if (headNode.pNext != null)
+            if (pTargetNode.pPrev != null)
             {
-                headNode.pNext.pPrev = null;
+                pTargetNode.pPrev.pNext = pTargetNode.pNext;
+
+                if (pTargetNode == pTail)
+                {
+                    pTail = pTargetNode.pPrev;
+                }
+            }
+            else
+            {
+                pHead = pTargetNode.pNext;
+
+                if (pTargetNode == pTail)
+                {
+                    pTail = pTargetNode.pNext;
+                }
             }
 
-            pHead = headNode.pNext;
-            headNode.pNext = null;
+            if (pTargetNode.pNext != null)
+            {
+                pTargetNode.pNext.pPrev = pTargetNode.pPrev;
+            }
 
-            return headNode;
+            pTargetNode.Wash();
         }
 
         public virtual void Wash()

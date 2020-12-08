@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders
+namespace SpaceInvaders.GameObjects
 {
     class GameObjectNode : DLink
     {
-        public GameObject pGameObj;
+        public GameObject poGameObj;
 
         public GameObjectNode()
             : base()
         {
-            this.pGameObj = null;
+            this.poGameObj = null;
         }
 
         ~GameObjectNode()
@@ -21,18 +21,18 @@ namespace SpaceInvaders
         public void Set(GameObject pGameObject)
         {
             Debug.Assert(pGameObject != null);
-            this.pGameObj = pGameObject;
+            this.poGameObj = pGameObject;
         }
 
         public override void Wash()
         {
             base.Wash();
-            this.pGameObj = null;
+            this.poGameObj = null;
         }
 
         public Enum GetName()
         {
-            return this.pGameObj.name;
+            return this.poGameObj.name;
         }
 
         public override void Dump()

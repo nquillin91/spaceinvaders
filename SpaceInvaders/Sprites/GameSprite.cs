@@ -6,8 +6,10 @@ namespace SpaceInvaders.Sprites
 {
     public class GameSprite : Sprite
     {
+        protected Azul.Color poColor = new Azul.Color(1.0f, 1.0f, 1.0f, 1.0f);
+
         private Name name;
-        public Image pImage;
+        private Image pImage;
         public Azul.Sprite poAzulSprite;
 
         public enum Name
@@ -15,19 +17,62 @@ namespace SpaceInvaders.Sprites
             Octopus,
             Crab,
             Squid,
+
+            Player,
+
+            Missile,
+
+            NullObject,
             Uninitialized
         }
 
-        public GameSprite() : base() {}
-
-        public void Set(Name name, Image pImage, float x, float y, float width, float height)
+        public GameSprite() : base() 
         {
-            this.name = name;
+            this.name = GameSprite.Name.Uninitialized;
+
+            // Use the default - it will be replaced in the Set
+            this.pImage = ImageManager.Find(Image.Name.Default);
+            Debug.Assert(this.pImage != null);
+
+            Debug.Assert(this.poScreenRect != null);
+            this.poScreenRect.Clear();
+
+            // here is the actual new
+            Debug.Assert(this.poColor != null);
+
+            // here is the actual new
+            this.poAzulSprite = new Azul.Sprite(pImage.GetAzulTexture(), pImage.GetAzulRect(), this.poScreenRect, this.poColor);
+            Debug.Assert(this.poAzulSprite != null);
+
+            this.x = poAzulSprite.x;
+            this.y = poAzulSprite.y;
+            this.scaleX = poAzulSprite.sx;
+            this.scaleY = poAzulSprite.sy;
+            this.angle = poAzulSprite.angle;
+        }
+
+        public void Set(Name name, Image pImage, float x, float y, float width, float height, Azul.Color pColor)
+        {
+            Debug.Assert(pImage != null);
+            Debug.Assert(this.poScreenRect != null);
+            Debug.Assert(this.poAzulSprite != null);
+
+            this.poScreenRect.Set(x, y, width, height);
             this.pImage = pImage;
-            this.x = x;
-            this.y = y;
-            this.poRect.Set(x, y, width, height);
-            this.poAzulSprite = new Azul.Sprite(this.pImage.pTexture.poAzulTexture, this.pImage.poRect, this.poRect);
+            this.name = name;
+
+            if (pColor != null)
+            {
+                this.poColor.Set(pColor);
+            }
+
+            this.poAzulSprite.Swap(pImage.GetAzulTexture(), pImage.GetAzulRect(), this.poScreenRect, this.poColor);
+
+            this.x = poAzulSprite.x;
+            this.y = poAzulSprite.y;
+            this.scaleX = poAzulSprite.sx;
+            this.scaleY = poAzulSprite.sy;
+            this.angle = poAzulSprite.angle;
         }
 
         public void SetName(GameSprite.Name name)
@@ -43,7 +88,7 @@ namespace SpaceInvaders.Sprites
         public override void SwapScreenRect(float x, float y, float width, float height)
         {
             base.SwapScreenRect(x, y, width, height);
-            this.poAzulSprite.SwapScreenRect(this.poRect);
+            this.poAzulSprite.SwapScreenRect(this.poScreenRect);
         }
 
         public void SwapImage(Image image)
@@ -55,20 +100,17 @@ namespace SpaceInvaders.Sprites
             this.poAzulSprite.SwapTextureRect(this.pImage.poRect);
         }
 
-        public override void SwapColor(float red, float green, float blue)
+        public void SwapColor(float red, float green, float blue, float alpha = 1.0f)
         {
-            base.SwapColor(red, green, blue);
-            Debug.Assert(this.poColor != null);
+            this.poColor.Set(red, green, blue, alpha);
 
             this.poAzulSprite.SwapColor(this.poColor);
         }
 
-        public override void SwapColor(float red, float green, float blue, float alpha)
+        public Azul.Rect GetScreenRect()
         {
-            base.SwapColor(red, green, blue, alpha);
-            Debug.Assert(this.poColor != null);
-
-            this.poAzulSprite.SwapColor(this.poColor);
+            Debug.Assert(this.poScreenRect != null);
+            return this.poScreenRect;
         }
 
         public override void Update()
@@ -109,7 +151,7 @@ namespace SpaceInvaders.Sprites
             System.Diagnostics.Debug.WriteLine("Name: " + this.name +
                 ", Image:" + (this.pImage == null ? "Null" : this.pImage.GetName().ToString()) +
                 ", Sprite: " + (this.poAzulSprite == null ? "Null" : "Sprite Initialized") +
-                ", Window Rect: " + (this.poRect == null ? "Null" : this.poRect.ToString()));
+                ", Window Rect: " + (this.poScreenRect == null ? "Null" : this.poScreenRect.ToString()));
         }
     }
 }

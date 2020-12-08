@@ -19,6 +19,13 @@ namespace SpaceInvaders.Textures
             {
                 pTextureManager = new TextureManager(reserveSize, growthSize);
             }
+
+            // NullObject texture
+            Texture pTexture = TextureManager.Add(Texture.Name.NullObject, "HotPink.tga");
+            Debug.Assert(pTexture != null);
+
+            pTexture = TextureManager.Add(Texture.Name.Default, "HotPink.tga");
+            Debug.Assert(pTexture != null);
         }
 
         private static TextureManager GetInstance()

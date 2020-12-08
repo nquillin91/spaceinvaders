@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace SpaceInvaders.Batches
 {
-    class SpriteBatchManager : Manager
+    public class SpriteBatchManager : Manager
     {
         private static SpriteBatchManager pSpriteBatchManager;
         private readonly SpriteBatch poCompareNode;
@@ -29,7 +29,7 @@ namespace SpaceInvaders.Batches
             return pSpriteBatchManager;
         }
 
-        public static SpriteBatch Add(SpriteBatch.Name name, int reserveSize, int growthSize, int priority)
+        public static SpriteBatch Add(SpriteBatch.Name name, int reserveSize = 3, int growthSize = 1)
         {
             SpriteBatchManager spriteBatchMan = SpriteBatchManager.GetInstance();
 
@@ -38,26 +38,12 @@ namespace SpaceInvaders.Batches
             // Preventing duplicates
             if (spriteBatch == null)
             {
-                spriteBatch = (SpriteBatch)spriteBatchMan.AddNodeByPriority(priority);
-                spriteBatch.Set(name, reserveSize, growthSize, priority);
+                spriteBatch = (SpriteBatch)spriteBatchMan.BaseAddNode();
+                Debug.Assert(spriteBatch != null);
+                spriteBatch.Set(name, reserveSize, growthSize);
             }
 
             return spriteBatch;
-        }
-
-        public static void UpdatePriority(SpriteBatch.Name name, int priority)
-        {
-            SpriteBatchManager spriteBatchMan = SpriteBatchManager.GetInstance();
-
-            SpriteBatch spriteBatch = SpriteBatchManager.Find(name);
-            Debug.Assert(spriteBatch != null);
-
-            SpriteBatch newSpriteBatch = (SpriteBatch)spriteBatchMan.AddNodeByPriority(priority);
-            Debug.Assert(newSpriteBatch != null);
-
-            newSpriteBatch.Set(name, spriteBatch.poSpriteNodeManager);
-
-            SpriteBatchManager.Remove(spriteBatch);
         }
 
         public static void Remove(SpriteBatch spriteBatch)
@@ -70,24 +56,13 @@ namespace SpaceInvaders.Batches
             spriteBatchMan.BaseRemove(spriteBatch);
         }
 
-        public static void Attach(SpriteBatch.Name name, GameSprite.Name spriteName)
+        public static void Remove(SpriteNode pSpriteNode)
         {
-            SpriteBatchManager spriteBatchMan = SpriteBatchManager.GetInstance();
+            Debug.Assert(pSpriteNode != null);
+            SpriteNodeManager pSpriteNodeManager = pSpriteNode.GetNodeManager();
 
-            SpriteBatch spriteBatch = SpriteBatchManager.Find(name);
-            Debug.Assert(spriteBatch != null);
-
-            spriteBatch.Attach(spriteName);
-        }
-
-        public static void Attach(SpriteBatch.Name name, BoxSprite.Name spriteName)
-        {
-            SpriteBatchManager spriteBatchMan = SpriteBatchManager.GetInstance();
-
-            SpriteBatch spriteBatch = SpriteBatchManager.Find(name);
-            Debug.Assert(spriteBatch != null);
-
-            spriteBatch.Attach(spriteName);
+            Debug.Assert(pSpriteNodeManager != null);
+            pSpriteNodeManager.Remove(pSpriteNode);
         }
 
         public static SpriteBatch Find(SpriteBatch.Name name)
@@ -113,50 +88,6 @@ namespace SpaceInvaders.Batches
 
                 temp = (SpriteBatch)temp.pNext;
             }
-        }
-
-        private DLink AddNodeByPriority(int priority)
-        {
-            if (this.poReserveList.size == 0)
-            {
-                this.GenerateReserveNodes(this.growthSize);
-            }
-
-            DLink pLink = DLink.RemoveFromFront(ref this.poReserveList);
-
-            Debug.Assert(pLink != null);
-            Debug.Assert(pLink.pNext == null);
-            Debug.Assert(pLink.pPrev == null);
-
-            DLink temp = this.poActiveList;
-
-            if (temp == null)
-            {
-                DLink.AddFirst(ref this.poActiveList, pLink);
-            } else
-            {
-                while (temp != null)
-                {
-                    if (priority <= ((SpriteBatch)temp).priority)
-                    {
-                        DLink.InsertBeforeNode(ref this.poActiveList, ref temp, ref pLink);
-                        break;
-                    }
-
-                    if (temp.pNext == null)
-                    {
-                        DLink.InsertAfterNode(ref this.poActiveList, ref temp, ref pLink);
-                        break;
-                    }
-
-                    temp = temp.pNext;
-                }
-            }
-
-            this.poActiveList.size++;
-            this.poReserveList.size--;
-
-            return pLink;
         }
 
         protected override DLink CreateNode()

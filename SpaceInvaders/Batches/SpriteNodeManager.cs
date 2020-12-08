@@ -4,44 +4,50 @@ using System.Diagnostics;
 
 namespace SpaceInvaders.Batches
 {
-    class SpriteNodeManager : Manager
+    public class SpriteNodeManager : Manager
     {
-        private SpriteBatch.Name associatedBatchName;
+        private SpriteBatch.Name name;
+        private SpriteBatch pBackSpriteBatch;
         private readonly SpriteNode poCompareNode;
 
         public SpriteNodeManager(int reserveSize = 3, int growthSize = 1) : base(reserveSize, growthSize)
         {
             this.poCompareNode = (SpriteNode)this.CreateNode();
+            this.pBackSpriteBatch = null;
         }
 
         public void Set(SpriteBatch.Name name, int reserveSize, int growthSize)
         {
-            this.associatedBatchName = name;
+            this.name = name;
             this.SetManagerDefaults(reserveSize, growthSize);
         }
 
-        public void Attach(GameSprite.Name name)
+        public SpriteNode Attach(Sprite pNode)
         {
-            SpriteNode spriteNode = (SpriteNode)this.BaseAddNode();
-            Debug.Assert(spriteNode != null);
+            // Go to Man, get a node from reserve, add to active, return it
+            SpriteNode pSBNode = (SpriteNode)this.BaseAddNode();
+            Debug.Assert(pSBNode != null);
 
-            spriteNode.Set(name);
+            // Initialize SpriteBatchNode
+            pSBNode.Set(pNode, this);
+
+            return pSBNode;
         }
 
-        public void Attach(BoxSprite.Name name)
+        public void Remove(SpriteNode pNode)
         {
-            SpriteNode spriteNode = (SpriteNode)this.BaseAddNode();
-            Debug.Assert(spriteNode != null);
-
-            spriteNode.Set(name);
+            Debug.Assert(pNode != null);
+            this.BaseRemove(pNode);
         }
 
-        public void Attach(ProxySprite proxySprite)
+        public SpriteBatch GetSpriteBatch()
         {
-            SpriteNode spriteNode = (SpriteNode)this.BaseAddNode();
-            Debug.Assert(spriteNode != null);
+            return this.pBackSpriteBatch;
+        }
 
-            spriteNode.Set(proxySprite);
+        public void SetSpriteBatch(SpriteBatch _pSpriteBatch)
+        {
+            this.pBackSpriteBatch = _pSpriteBatch;
         }
 
         public void Draw()

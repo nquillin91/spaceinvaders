@@ -5,11 +5,16 @@ namespace SpaceInvaders.Sprites
 {
     public class BoxSprite : Sprite
     {
+        static private Azul.Rect psTmpRect = new Azul.Rect();
+        static private Azul.Color psTmpColor = new Azul.Color(1, 1, 1);
+
         private Name name;
-        public Azul.SpriteBox poAzulSpriteBox;
+        private readonly Azul.Color poLineColor;
+        private Azul.SpriteBox poAzulBoxSprite;
 
         public enum Name
         {
+            Box,
             Box1,
             Box2,
             Uninitialized
@@ -19,32 +24,72 @@ namespace SpaceInvaders.Sprites
         {
             this.name = BoxSprite.Name.Uninitialized;
 
-            Debug.Assert(this.poRect != null);
-            this.poRect.Set(0, 0, 1, 1);
+            Debug.Assert(BoxSprite.psTmpRect != null);
+            BoxSprite.psTmpRect.Set(0, 0, 1, 1);
+            Debug.Assert(BoxSprite.psTmpColor != null);
+            BoxSprite.psTmpColor.Set(1, 1, 1);
 
-            this.poAzulSpriteBox = new Azul.SpriteBox(this.poRect, this.poColor);
-            Debug.Assert(this.poAzulSpriteBox != null);
+            // Here is the actual new
+            this.poAzulBoxSprite = new Azul.SpriteBox(psTmpRect, psTmpColor);
+            Debug.Assert(this.poAzulBoxSprite != null);
 
-            this.x = poAzulSpriteBox.x;
-            this.y = poAzulSpriteBox.y;
-            this.scaleX = poAzulSpriteBox.sx;
-            this.scaleY = poAzulSpriteBox.sy;
-            this.angle = poAzulSpriteBox.angle;
+            // Here is the actual new
+            this.poLineColor = new Azul.Color(1, 1, 1);
+            Debug.Assert(this.poLineColor != null);
+
+            this.x = poAzulBoxSprite.x;
+            this.y = poAzulBoxSprite.y;
+            this.scaleX = poAzulBoxSprite.sx;
+            this.scaleY = poAzulBoxSprite.sy;
+            this.angle = poAzulBoxSprite.angle;
         }
 
-        public void Set(Name name, float x, float y, float width, float height, Azul.Color poColor = null)
+        public void Set(Name name, float x, float y, float width, float height, Azul.Color pLineColor = null)
         {
-            this.name = name;
-            this.x = x;
-            this.y = y;
-            this.poRect.Set(x, y, width, height);
+            Debug.Assert(this.poAzulBoxSprite != null);
+            Debug.Assert(this.poLineColor != null);
 
-            if (poColor != null)
+            Debug.Assert(psTmpRect != null);
+            BoxSprite.psTmpRect.Set(x, y, width, height);
+
+            this.name = name;
+
+            if (pLineColor == null)
             {
-                this.poColor.Set(poColor);
+                this.poLineColor.Set(1, 1, 1);
             }
-            
-            this.poAzulSpriteBox = new Azul.SpriteBox(this.poRect, this.poColor);
+            else
+            {
+                this.poLineColor.Set(pLineColor);
+            }
+
+            this.poAzulBoxSprite.Swap(psTmpRect, this.poLineColor);
+
+            this.x     = poAzulBoxSprite.x;
+            this.y     = poAzulBoxSprite.y;
+            this.scaleX    = poAzulBoxSprite.sx;
+            this.scaleY    = poAzulBoxSprite.sy;
+            this.angle = poAzulBoxSprite.angle;
+        }
+
+        public void Set(BoxSprite.Name boxName, float x, float y, float width, float height)
+        {
+            Debug.Assert(this.poAzulBoxSprite != null);
+            Debug.Assert(this.poLineColor != null);
+            Debug.Assert(psTmpRect != null);
+
+            BoxSprite.psTmpRect.Set(x, y, width, height);
+
+            this.name = boxName;
+
+            this.poAzulBoxSprite.Swap(psTmpRect, this.poLineColor);
+            Debug.Assert(this.poAzulBoxSprite != null);
+
+            this.x = poAzulBoxSprite.x;
+            this.y = poAzulBoxSprite.y;
+            this.scaleX = poAzulBoxSprite.sx;
+            this.scaleY = poAzulBoxSprite.sy;
+            this.angle = poAzulBoxSprite.angle;
         }
 
         public void SetName(BoxSprite.Name name)
@@ -61,40 +106,32 @@ namespace SpaceInvaders.Sprites
         {
             base.SwapScreenRect(x, y, width, height);
 
-            this.poAzulSpriteBox.SwapScreenRect(this.poRect);
+            this.poAzulBoxSprite.SwapScreenRect(this.poScreenRect);
         }
 
-        public override void SwapColor(float red, float green, float blue)
+        public void SetLineColor(float red, float green, float blue, float alpha = 1.0f)
         {
-            base.SwapColor(red, green, blue);
-
-            this.poAzulSpriteBox.SwapColor(this.poColor);
-        }
-
-        public override void SwapColor(float red, float green, float blue, float alpha)
-        {
-            base.SwapColor(red, green, blue, alpha);
-
-            this.poAzulSpriteBox.SwapColor(this.poColor);
+            this.poLineColor.Set(red, green, blue, alpha);
+            this.poAzulBoxSprite.SwapColor(this.poLineColor);
         }
 
         public override void Update()
         {
             base.Update();
 
-            Debug.Assert(this.poAzulSpriteBox != null);
-            this.poAzulSpriteBox.x = this.x;
-            this.poAzulSpriteBox.y = this.y;
-            this.poAzulSpriteBox.sx = this.scaleX;
-            this.poAzulSpriteBox.sy = this.scaleY;
-            this.poAzulSpriteBox.angle = this.angle;
-            this.poAzulSpriteBox.Update();
+            Debug.Assert(this.poAzulBoxSprite != null);
+            this.poAzulBoxSprite.x = this.x;
+            this.poAzulBoxSprite.y = this.y;
+            this.poAzulBoxSprite.sx = this.scaleX;
+            this.poAzulBoxSprite.sy = this.scaleY;
+            this.poAzulBoxSprite.angle = this.angle;
+            this.poAzulBoxSprite.Update();
         }
 
         public override void Render()
         {
-            Debug.Assert(this.poAzulSpriteBox != null);
-            this.poAzulSpriteBox.Render();
+            Debug.Assert(this.poAzulBoxSprite != null);
+            this.poAzulBoxSprite.Render();
         }
 
         public override void Wash()
@@ -103,18 +140,18 @@ namespace SpaceInvaders.Sprites
 
             this.name = Name.Uninitialized;
 
-            if (poAzulSpriteBox != null)
+            if (poAzulBoxSprite != null)
             {
-                this.poAzulSpriteBox.Dispose();
-                this.poAzulSpriteBox = null;
+                this.poAzulBoxSprite.Dispose();
+                this.poAzulBoxSprite = null;
             }
         }
 
         public override void Dump()
         {
             System.Diagnostics.Debug.WriteLine("Name: " + this.name +
-                ", Sprite: " + (this.poAzulSpriteBox == null ? "Null" : "Sprite Initialized") +
-                ", Window Rect: " + (this.poRect == null ? "Null" : this.poRect.ToString()));
+                ", Sprite: " + (this.poAzulBoxSprite == null ? "Null" : "Sprite Initialized") +
+                ", Window Rect: " + (this.poScreenRect == null ? "Null" : this.poScreenRect.ToString()));
         }
     }
 }

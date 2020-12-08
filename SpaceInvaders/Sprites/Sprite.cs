@@ -1,12 +1,15 @@
-﻿using System;
+﻿using SpaceInvaders.Batches;
+using System;
 using System.Diagnostics;
 
 namespace SpaceInvaders.Sprites
 {
     public abstract class Sprite : DLink
     {
-        public Azul.Rect poRect = new Azul.Rect();
-        public Azul.Color poColor = new Azul.Color(1.0f, 1.0f, 1.0f, 1.0f);
+        // This is used to maintain a reference for deletion
+        private SpriteNode pBackSpriteNode;
+
+        public Azul.Rect poScreenRect = new Azul.Rect();
         public float angle;
         public float scaleX;
         public float scaleY;
@@ -15,6 +18,8 @@ namespace SpaceInvaders.Sprites
 
         public Sprite() : base()
         {
+            this.pBackSpriteNode = null;
+
             this.x = 0.0f;
             this.y = 0.0f;
             this.scaleX = 1.0f;
@@ -22,29 +27,29 @@ namespace SpaceInvaders.Sprites
             this.angle = 0.0f;
         }
 
+        public SpriteNode GetSpriteNode()
+        {
+            Debug.Assert(this.pBackSpriteNode != null);
+            return this.pBackSpriteNode;
+        }
+
+        public void SetSpriteNode(SpriteNode pSpriteBatchNode)
+        {
+            Debug.Assert(pSpriteBatchNode != null);
+            this.pBackSpriteNode = pSpriteBatchNode;
+        }
+
         public virtual void SwapScreenRect(float x, float y, float width, float height)
         {
             this.x = x;
             this.y = y;
-            this.poRect.Set(x, y, width, height);
-        }
-
-        public virtual void SwapColor(float red, float green, float blue)
-        {
-            this.poColor.Set(red, green, blue);
-            Debug.Assert(this.poColor != null);
-        }
-
-        public virtual void SwapColor(float red, float green, float blue, float alpha)
-        {
-            this.poColor.Set(red, green, blue, alpha);
-            Debug.Assert(this.poColor != null);
+            this.poScreenRect.Set(x, y, width, height);
         }
 
         public virtual void Update()
         {
-            this.poRect.x = this.x;
-            this.poRect.y = this.y;
+            this.poScreenRect.x = this.x;
+            this.poScreenRect.y = this.y;
         }
 
         public abstract void Render();
@@ -53,7 +58,7 @@ namespace SpaceInvaders.Sprites
         {
             base.Wash();
 
-            this.poRect.Clear();
+            this.poScreenRect.Clear();
 
             angle = 0.0f;
             scaleX = 1.0f;

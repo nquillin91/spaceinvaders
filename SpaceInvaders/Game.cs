@@ -1,6 +1,12 @@
 ﻿using SpaceInvaders.Batches;
+using SpaceInvaders.Collision;
+using SpaceInvaders.Composites;
+using SpaceInvaders.GameObjects;
 using SpaceInvaders.Images;
+using SpaceInvaders.Observers;
+using SpaceInvaders.Player;
 using SpaceInvaders.Sprites;
+using SpaceInvaders.States;
 using SpaceInvaders.Textures;
 using SpaceInvaders.Timer;
 using System;
@@ -10,7 +16,7 @@ namespace SpaceInvaders
 {
     class SpaceInvaders : Azul.Game
     {
-        Composite pGrid;
+        public static GameObject pGrid;
 
         //-----------------------------------------------------------------------------
         // Game::Initialize()
@@ -35,7 +41,33 @@ namespace SpaceInvaders
         {
             InitializeResources();
 
-            SpriteBatchManager.Add(SpriteBatch.Name.Aliens, 5, 3, 150);
+            SpriteBatchManager.Add(SpriteBatch.Name.Boxes);
+            SpriteBatchManager.Add(SpriteBatch.Name.Aliens);
+            SpriteBatchManager.Add(SpriteBatch.Name.Player);
+
+            //---------------------------------------------------------------------------------------------------------
+            // Create Missile
+            //---------------------------------------------------------------------------------------------------------
+
+            MissileGroup pMissileGroup = new MissileGroup(GameObject.Name.MissileGroup, GameSprite.Name.NullObject, 0.0f, 0.0f);
+            pMissileGroup.ActivateGameSprite(SpriteBatchManager.Find(SpriteBatch.Name.Aliens));
+            pMissileGroup.ActivateCollisionSprite(SpriteBatchManager.Find(SpriteBatch.Name.Boxes));
+
+            GameObjectManager.Attach(pMissileGroup);
+
+            //---------------------------------------------------------------------------------------------------------
+            // Ship
+            //---------------------------------------------------------------------------------------------------------
+
+            PlayerRoot pShipRoot = new PlayerRoot(GameObject.Name.PlayerRoot, GameSprite.Name.NullObject, 0.0f, 0.0f);
+            GameObjectManager.Attach(pShipRoot);
+
+            PlayerManager.Create();
+
+
+            //---------------------------------------------------------------------------------------------------------
+            // Create Animations
+            //---------------------------------------------------------------------------------------------------------
 
             AnimationSpriteCommand pSquidAnimation = new AnimationSpriteCommand(GameSprite.Name.Squid);
             pSquidAnimation.Attach(Image.Name.SquidA);
@@ -54,34 +86,103 @@ namespace SpaceInvaders
             TimerManager.Add(TimerEvent.Name.SpriteAnimation, pCrabAnimation, 0.5f);
             TimerManager.Add(TimerEvent.Name.SpriteAnimation, pOctopusAnimation, 0.5f);
 
+            //---------------------------------------------------------------------------------------------------------
+            // Create Grid
+            //---------------------------------------------------------------------------------------------------------
+
             GameObject pGameObj;
 
-            // create the factory 
-            pGrid = new Composite();
-            Composite pCol0 = new Composite();
+            AlienFactory alienFactory = new AlienFactory(SpriteBatch.Name.Aliens, SpriteBatch.Name.Boxes);
 
-            AlienFactory alienFactory = new AlienFactory(SpriteBatch.Name.Aliens);
+            // create the factory 
+            pGrid = alienFactory.Create(GameObject.Name.AlienGrid, AlienCategory.Type.Grid);
+            GameObject pCol0 = alienFactory.Create(GameObject.Name.AlienColumn, AlienCategory.Type.Column);
+            GameObject pCol1 = alienFactory.Create(GameObject.Name.AlienColumn, AlienCategory.Type.Column);
+            GameObject pCol2 = alienFactory.Create(GameObject.Name.AlienColumn, AlienCategory.Type.Column);
 
             // Create Column 0
-            pGameObj = alienFactory.Create(GameObject.Type.Squid, 10.0f * 50.0f, 500.0f);
+            pGameObj = alienFactory.Create(GameObject.Name.Squid, AlienCategory.Type.Squid, 8.0f * 50.0f, 400.0f);
             pCol0.Add(pGameObj);
 
-            pGameObj = alienFactory.Create(GameObject.Type.Crab, 10.0f * 50.0f, 350.0f);
+            pGameObj = alienFactory.Create(GameObject.Name.Crab, AlienCategory.Type.Crab, 8.0f * 50.0f, 350.0f);
             pCol0.Add(pGameObj);
 
-            pGameObj = alienFactory.Create(GameObject.Type.Crab, 10.0f * 50.0f, 300.0f);
+            pGameObj = alienFactory.Create(GameObject.Name.Crab, AlienCategory.Type.Crab, 8.0f * 50.0f, 300.0f);
             pCol0.Add(pGameObj);
 
-            pGameObj = alienFactory.Create(GameObject.Type.Octopus, 10.0f * 50.0f, 100.0f);
-            pCol0.Add(pGameObj);
+            // Create Column 1
 
-            pGameObj = alienFactory.Create(GameObject.Type.Octopus, 10.0f * 50.0f, 150.0f);
-            pCol0.Add(pGameObj);
+            pGameObj = alienFactory.Create(GameObject.Name.Squid, AlienCategory.Type.Squid, 9.0f * 50.0f, 400.0f);
+            pCol1.Add(pGameObj);
+
+            pGameObj = alienFactory.Create(GameObject.Name.Crab, AlienCategory.Type.Crab, 9.0f * 50.0f, 350.0f);
+            pCol1.Add(pGameObj);
+
+            pGameObj = alienFactory.Create(GameObject.Name.Crab, AlienCategory.Type.Crab, 9.0f * 50.0f, 300.0f);
+            pCol1.Add(pGameObj);
+
+            // Create Column 2
+            pGameObj = alienFactory.Create(GameObject.Name.Squid, AlienCategory.Type.Squid, 10.0f * 50.0f, 400.0f);
+            pCol2.Add(pGameObj);
+
+            pGameObj = alienFactory.Create(GameObject.Name.Crab, AlienCategory.Type.Crab, 10.0f * 50.0f, 350.0f);
+            pCol2.Add(pGameObj);
+
+            pGameObj = alienFactory.Create(GameObject.Name.Crab, AlienCategory.Type.Crab, 10.0f * 50.0f, 300.0f);
+            pCol2.Add(pGameObj);
 
             // Add to Grid
             pGrid.Add(pCol0);
+            pGrid.Add(pCol1);
+            pGrid.Add(pCol2);
 
-            pGrid.Print();
+            GameObjectManager.Attach(pGrid);
+
+            //---------------------------------------------------------------------------------------------------------
+            // Test Iterators
+            //---------------------------------------------------------------------------------------------------------
+
+            // Print to test iterators
+            Debug.WriteLine("-------------------");
+
+            //pGrid.Print();
+
+            Debug.WriteLine("-------------------");
+
+            ForwardIterator pFor = new ForwardIterator(pGrid);
+
+            Component pNode = pFor.First();
+            while (!pFor.IsDone())
+            {
+                pNode.Dump();
+                pNode = pFor.Next();
+            }
+
+            Debug.WriteLine("-------------------");
+
+            ReverseIterator pRev = new ReverseIterator(pGrid);
+
+            pNode = pRev.First();
+            while (!pRev.IsDone())
+            {
+                pNode.Dump();
+                pNode = pRev.Next();
+            }
+
+            Debug.WriteLine("-------------------");
+
+            //---------------------------------------------------------------------------------------------------------
+            // ColPair 
+            //---------------------------------------------------------------------------------------------------------
+
+            // Associate in a collision pair
+            ColPair pColPair;
+            pColPair = ColPairManager.Add(ColPair.Name.Missile, pMissileGroup, pGrid);
+            Debug.Assert(pColPair != null);
+            pColPair.Attach(new RemoveMissileObserver());
+            pColPair.Attach(new RemoveAlienObserver());
+            pColPair.Attach(new PlayerStateChangeObserver());
+
 
             //---------------------------------------------------------------------------------------------------------
             // Demo variables
@@ -103,9 +204,27 @@ namespace SpaceInvaders
             //  InputTest.KeyboardTest();
             //  InputTest.MouseTest();
 
+            if (Azul.Input.GetKeyState(Azul.AZUL_KEY.KEY_SPACE))
+            {
+                PlayerShip pShip = PlayerManager.GetShip();
+                pShip.ShootMissile();
+            }
+
+            if (Azul.Input.GetKeyState(Azul.AZUL_KEY.KEY_ARROW_LEFT))
+            {
+                PlayerShip pShip = PlayerManager.GetShip();
+                pShip.MoveLeft();
+            }
+
+            if (Azul.Input.GetKeyState(Azul.AZUL_KEY.KEY_ARROW_RIGHT))
+            {
+                PlayerShip pShip = PlayerManager.GetShip();
+                pShip.MoveRight();
+            }
+
             TimerManager.Update(this.GetTime());
 
-            pGrid.Move();
+            ColPairManager.Process();
 
             GameObjectManager.Update();
         }
@@ -137,13 +256,15 @@ namespace SpaceInvaders
 
         private void InitializeResources()
         {
-            TextureManager.Create(5, 2);
-            ImageManager.Create(5, 3);
-            GameSpriteManager.Create(20, 10);
-            BoxSpriteManager.Create(5, 2);
-            SpriteBatchManager.Create(5, 2);
-            TimerManager.Create(3, 2);
-            GameObjectManager.Create(3, 2);
+            TextureManager.Create(1, 1);
+            ImageManager.Create(5, 2);
+            GameSpriteManager.Create(4, 2);
+            SpriteBatchManager.Create(3, 1);
+            BoxSpriteManager.Create(3, 1);
+            TimerManager.Create(3, 1);
+            ProxySpriteManager.Create(10, 1);
+            GameObjectManager.Create(3, 1);
+            ColPairManager.Create(1, 1);
 
             //---------------------------------------------------------------------------------------------------------
             // Load the Textures
@@ -242,6 +363,11 @@ namespace SpaceInvaders
             GameSpriteManager.Add(GameSprite.Name.Squid, Image.Name.SquidA, 25.0f, 580.0f, 25.0f, 25.0f);
             GameSpriteManager.Add(GameSprite.Name.Crab, Image.Name.CrabA, 75.0f, 540.0f, 25.0f, 25.0f);
             GameSpriteManager.Add(GameSprite.Name.Octopus, Image.Name.OctopusA, 125.0f, 500.0f, 25.0f, 25.0f);
+            GameSpriteManager.Add(GameSprite.Name.Missile, Image.Name.PlayerShot, 50, 50, 10, 10);
+            GameSpriteManager.Add(GameSprite.Name.Player, Image.Name.Player, 50, 50, 30, 30);
+
+            BoxSpriteManager.Add(BoxSprite.Name.Box1, 550.0f, 500.0f, 50.0f, 150.0f, new Azul.Color(1.0f, 1.0f, 1.0f, 1.0f));
+            BoxSpriteManager.Add(BoxSprite.Name.Box2, 550.0f, 100.0f, 50.0f, 100.0f);
         }
     }
 }

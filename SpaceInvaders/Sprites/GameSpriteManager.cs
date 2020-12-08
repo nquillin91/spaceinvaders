@@ -19,6 +19,9 @@ namespace SpaceInvaders.Sprites
             {
                 pSpriteManager = new GameSpriteManager(reserveSize, growthSize);
             }
+
+            GameSprite pGSprite = GameSpriteManager.Add(GameSprite.Name.NullObject, Image.Name.NullObject, 0, 0, 0, 0);
+            Debug.Assert(pGSprite != null);
         }
 
         private static GameSpriteManager GetInstance()
@@ -28,7 +31,7 @@ namespace SpaceInvaders.Sprites
             return pSpriteManager;
         }
 
-        public static GameSprite Add(GameSprite.Name name, Image.Name imageName, float x, float y, float width, float height)
+        public static GameSprite Add(GameSprite.Name name, Image.Name imageName, float x, float y, float width, float height, Azul.Color pColor = null)
         {
             GameSpriteManager spriteMan = GameSpriteManager.GetInstance();
             Debug.Assert(spriteMan != null);
@@ -41,7 +44,7 @@ namespace SpaceInvaders.Sprites
                 Debug.Assert(pImage != null);
 
                 sprite = (GameSprite)spriteMan.BaseAddNode();
-                sprite.Set(name, pImage, x, y, width, height);
+                sprite.Set(name, pImage, x, y, width, height, pColor);
             }
 
             Debug.Assert(sprite != null);

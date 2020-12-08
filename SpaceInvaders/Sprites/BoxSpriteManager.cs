@@ -27,38 +27,15 @@ namespace SpaceInvaders.Sprites
             return pSpriteManager;
         }
 
-        public static BoxSprite Add(BoxSprite.Name name, float x, float y, float width, float height)
+        public static BoxSprite Add(BoxSprite.Name name, float x, float y, float width, float height, Azul.Color pColor = null)
         {
             BoxSpriteManager spriteMan = BoxSpriteManager.GetInstance();
             Debug.Assert(spriteMan != null);
 
-            BoxSprite sprite = (BoxSprite)BoxSpriteManager.Find(name);
-
-            if (sprite == null)
-            {
-                sprite = (BoxSprite)spriteMan.BaseAddNode();
-                sprite.Set(name, x, y, width, height);
-            }
-
+            BoxSprite sprite = (BoxSprite)spriteMan.BaseAddNode();
             Debug.Assert(sprite != null);
 
-            return sprite;
-        }
-
-        public static BoxSprite Add(BoxSprite.Name name, float x, float y, float width, float height, Azul.Color poColor)
-        {
-            BoxSpriteManager spriteMan = BoxSpriteManager.GetInstance();
-            Debug.Assert(spriteMan != null);
-
-            BoxSprite sprite = (BoxSprite)BoxSpriteManager.Find(name);
-
-            if (sprite == null)
-            {
-                sprite = (BoxSprite)spriteMan.BaseAddNode();
-                sprite.Set(name, x, y, width, height, poColor);
-            }
-
-            Debug.Assert(sprite != null);
+            sprite.Set(name, x, y, width, height, pColor);
 
             return sprite;
         }

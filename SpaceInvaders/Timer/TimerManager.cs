@@ -116,7 +116,7 @@ namespace SpaceInvaders.Timer
 
             if (temp == null)
             {
-                DLink.AddFirst(ref this.poActiveList, pLink);
+                DLink.AddFirst(ref this.poActiveList, ref this.poActiveListTail, pLink);
             } else
             {
                 while (temp != null)

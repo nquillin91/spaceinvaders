@@ -19,6 +19,12 @@ namespace SpaceInvaders.Images
             {
                 pImageManager = new ImageManager(reserveSize, growthSize);
             }
+
+            Image pImage = ImageManager.Add(Image.Name.NullObject, Texture.Name.NullObject, 0, 0, 128, 128);
+            Debug.Assert(pImage != null);
+
+            pImage = ImageManager.Add(Image.Name.Default, Texture.Name.Default, 0, 0, 128, 128);
+            Debug.Assert(pImage != null);
         }
 
         private static ImageManager GetInstance()

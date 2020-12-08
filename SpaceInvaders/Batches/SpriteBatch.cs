@@ -4,29 +4,28 @@ using System.Diagnostics;
 
 namespace SpaceInvaders.Batches
 {
-    class SpriteBatch : DLink
+    public class SpriteBatch : DLink
     {
         private Name name;
-        public int priority;
         public SpriteNodeManager poSpriteNodeManager;
 
         public enum Name
         {
             Aliens,
+            Player,
+            Boxes,
             Uninitialized
         }
 
         public SpriteBatch() : base()
         {
             this.name = SpriteBatch.Name.Uninitialized;
-            this.priority = 0;
             this.poSpriteNodeManager = new SpriteNodeManager();
         }
 
-        public void Set(SpriteBatch.Name name, int reserveSize, int growthSize, int priority)
+        public void Set(SpriteBatch.Name name, int reserveSize, int growthSize)
         {
             this.name = name;
-            this.priority = priority;
             this.poSpriteNodeManager.Set(name, reserveSize, growthSize);
         }
 
@@ -46,25 +45,18 @@ namespace SpaceInvaders.Batches
             return this.name;
         }
 
-        public void Attach(GameSprite.Name name)
+        public void Attach(Sprite pNode)
         {
-            Debug.Assert(this.poSpriteNodeManager != null);
+            Debug.Assert(pNode != null);
 
-            this.poSpriteNodeManager.Attach(name);
-        }
+            // Go to Man, get a node from reserve, add to active, return it
+            SpriteNode pSpriteNode = (SpriteNode)this.poSpriteNodeManager.Attach(pNode);
+            Debug.Assert(pSpriteNode != null);
 
-        public void Attach(BoxSprite.Name name)
-        {
-            Debug.Assert(this.poSpriteNodeManager != null);
+            // Initialize SpriteBatchNode
+            pSpriteNode.Set(pNode, this.poSpriteNodeManager);
 
-            this.poSpriteNodeManager.Attach(name);
-        }
-
-        public void Attach(ProxySprite proxySprite)
-        {
-            Debug.Assert(this.poSpriteNodeManager != null);
-
-            this.poSpriteNodeManager.Attach(proxySprite);
+            this.poSpriteNodeManager.SetSpriteBatch(this);
         }
 
         public override void Wash()

@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpaceInvaders.Textures;
+using Azul;
 
 namespace SpaceInvaders.Images
 {
     public class Image : DLink
     {
         private Name name;
-        public Texture pTexture;
+        public Textures.Texture pTexture;
         public Azul.Rect poRect = new Azul.Rect();
 
         public enum Name
@@ -90,7 +91,19 @@ namespace SpaceInvaders.Images
             Asterisk,
             Question,
             Hyphen,
+            Default,
+            NullObject,
             Uninitialized
+        }
+
+        internal Rect GetAzulRect()
+        {
+            return this.poRect;
+        }
+
+        internal Azul.Texture GetAzulTexture()
+        {
+            return this.pTexture.poAzulTexture;
         }
 
         public Image(Name name) : base()
@@ -98,7 +111,7 @@ namespace SpaceInvaders.Images
             this.name = name;
         }
 
-        public void Set(Name name, Texture pTexture, float x, float y, float width, float height)
+        public void Set(Name name, Textures.Texture pTexture, float x, float y, float width, float height)
         {
             this.name = name;
 
