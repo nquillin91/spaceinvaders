@@ -1,8 +1,8 @@
-﻿using SpaceInvaders.Nodes.Sprites;
+﻿using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders.Nodes
+namespace SpaceInvaders.Batches
 {
     class SpriteNode : DLink
     {
@@ -23,6 +23,12 @@ namespace SpaceInvaders.Nodes
         {
             this.pSprite = BoxSpriteManager.Find(name);
             Debug.Assert(this.pSprite != null);
+        }
+
+        public void Set(ProxySprite pNode)
+        {
+            Debug.Assert(pNode != null);
+            this.pSprite = pNode;
         }
 
         public override void Wash()

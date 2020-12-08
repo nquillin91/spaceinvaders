@@ -1,28 +1,23 @@
-﻿using SpaceInvaders.Managers;
-using SpaceInvaders.Nodes.Sprites;
+﻿using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders.Nodes
+namespace SpaceInvaders.Batches
 {
     class SpriteBatch : DLink
     {
-        public Name name;
+        private Name name;
         public int priority;
         public SpriteNodeManager poSpriteNodeManager;
 
         public enum Name
         {
-            Birds,
-            Stitch,
-            Boxes,
             Aliens,
             Uninitialized
         }
 
         public SpriteBatch() : base()
         {
-            // TODO: Need to fix args
             this.name = SpriteBatch.Name.Uninitialized;
             this.priority = 0;
             this.poSpriteNodeManager = new SpriteNodeManager();
@@ -41,6 +36,16 @@ namespace SpaceInvaders.Nodes
             this.poSpriteNodeManager = poSpriteNodeManager;
         }
 
+        public void SetName(SpriteBatch.Name name)
+        {
+            this.name = name;
+        }
+
+        public SpriteBatch.Name GetName()
+        {
+            return this.name;
+        }
+
         public void Attach(GameSprite.Name name)
         {
             Debug.Assert(this.poSpriteNodeManager != null);
@@ -53,6 +58,13 @@ namespace SpaceInvaders.Nodes
             Debug.Assert(this.poSpriteNodeManager != null);
 
             this.poSpriteNodeManager.Attach(name);
+        }
+
+        public void Attach(ProxySprite proxySprite)
+        {
+            Debug.Assert(this.poSpriteNodeManager != null);
+
+            this.poSpriteNodeManager.Attach(proxySprite);
         }
 
         public override void Wash()

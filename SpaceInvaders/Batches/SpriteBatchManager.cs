@@ -1,9 +1,8 @@
-﻿using SpaceInvaders.Nodes;
-using SpaceInvaders.Nodes.Sprites;
+﻿using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders.Managers
+namespace SpaceInvaders.Batches
 {
     class SpriteBatchManager : Manager
     {
@@ -36,7 +35,7 @@ namespace SpaceInvaders.Managers
 
             SpriteBatch spriteBatch = SpriteBatchManager.Find(name);
 
-            // Preventing duplicate images
+            // Preventing duplicates
             if (spriteBatch == null)
             {
                 spriteBatch = (SpriteBatch)spriteBatchMan.AddNodeByPriority(priority);
@@ -95,7 +94,7 @@ namespace SpaceInvaders.Managers
         {
             SpriteBatchManager spriteBatchMan = SpriteBatchManager.GetInstance();
 
-            spriteBatchMan.poCompareNode.name = name;
+            spriteBatchMan.poCompareNode.SetName(name);
 
             SpriteBatch spriteBatch = (SpriteBatch)spriteBatchMan.BaseFind(spriteBatchMan.poCompareNode);
 
@@ -133,7 +132,7 @@ namespace SpaceInvaders.Managers
 
             if (temp == null)
             {
-                DLink.AddFirst(ref this.poActiveList, ref this.poActiveListTail, ref pLink);
+                DLink.AddFirst(ref this.poActiveList, pLink);
             } else
             {
                 while (temp != null)
@@ -176,7 +175,7 @@ namespace SpaceInvaders.Managers
             SpriteBatch spriteBatchA = (SpriteBatch)pLinkA;
             SpriteBatch spriteBatchB = (SpriteBatch)pLinkB;
 
-            if (spriteBatchA.name == spriteBatchB.name)
+            if (spriteBatchA.GetName() == spriteBatchB.GetName())
             {
                 return true;
             }

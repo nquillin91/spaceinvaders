@@ -1,8 +1,6 @@
-﻿using SpaceInvaders.Nodes;
-using SpaceInvaders.Nodes.Sprites;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace SpaceInvaders
+namespace SpaceInvaders.Sprites
 {
     class BoxSpriteManager : Manager
     {
@@ -80,7 +78,7 @@ namespace SpaceInvaders
             BoxSpriteManager spriteMan = BoxSpriteManager.GetInstance();
             Debug.Assert(spriteMan != null);
 
-            spriteMan.poCompareNode.name = name;
+            spriteMan.poCompareNode.SetName(name);
 
             BoxSprite sprite = (BoxSprite)spriteMan.BaseFind(spriteMan.poCompareNode);
 
@@ -102,7 +100,7 @@ namespace SpaceInvaders
             BoxSprite spriteA = (BoxSprite)pLinkA;
             BoxSprite spriteB = (BoxSprite)pLinkB;
 
-            if (spriteA.name == spriteB.name)
+            if (spriteA.GetName() == spriteB.GetName())
             {
                 return true;
             }

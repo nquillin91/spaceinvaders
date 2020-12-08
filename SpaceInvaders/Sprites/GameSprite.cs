@@ -1,29 +1,20 @@
-﻿using System;
+﻿using SpaceInvaders.Images;
+using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders.Nodes.Sprites
+namespace SpaceInvaders.Sprites
 {
-    class GameSprite : Sprite
+    public class GameSprite : Sprite
     {
-        public Name name;
+        private Name name;
         public Image pImage;
         public Azul.Sprite poAzulSprite;
 
         public enum Name
         {
-            RedBird,
-            WhiteBird,
-            GreenBird,
-            YellowBird,
-            Alien,
-            AlienWhite,
-            AlienSwap,
-            Alien1,
-            Alien2,
-            Alien3,
-            Alien4,
-            Alien5,
-            Stitch,
+            Octopus,
+            Crab,
+            Squid,
             Uninitialized
         }
 
@@ -35,11 +26,18 @@ namespace SpaceInvaders.Nodes.Sprites
             this.pImage = pImage;
             this.x = x;
             this.y = y;
-            this.angle = 0.0f;
-            this.scaleX = 1.0f;
-            this.scaleY = 1.0f;
             this.poRect.Set(x, y, width, height);
             this.poAzulSprite = new Azul.Sprite(this.pImage.pTexture.poAzulTexture, this.pImage.poRect, this.poRect);
+        }
+
+        public void SetName(GameSprite.Name name)
+        {
+            this.name = name;
+        }
+
+        public GameSprite.Name GetName()
+        {
+            return this.name;
         }
 
         public override void SwapScreenRect(float x, float y, float width, float height)
@@ -109,7 +107,7 @@ namespace SpaceInvaders.Nodes.Sprites
         public override void Dump()
         {
             System.Diagnostics.Debug.WriteLine("Name: " + this.name +
-                ", Image:" + (this.pImage == null ? "Null" : this.pImage.name.ToString()) +
+                ", Image:" + (this.pImage == null ? "Null" : this.pImage.GetName().ToString()) +
                 ", Sprite: " + (this.poAzulSprite == null ? "Null" : "Sprite Initialized") +
                 ", Window Rect: " + (this.poRect == null ? "Null" : this.poRect.ToString()));
         }

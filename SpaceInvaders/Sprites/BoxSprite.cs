@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders.Nodes.Sprites
+namespace SpaceInvaders.Sprites
 {
-    class BoxSprite : Sprite
+    public class BoxSprite : Sprite
     {
-        public Name name;
+        private Name name;
         public Azul.SpriteBox poAzulSpriteBox;
 
         public enum Name
@@ -17,9 +17,19 @@ namespace SpaceInvaders.Nodes.Sprites
 
         public BoxSprite() : base() 
         {
-            this.angle = 0.0f;
-            this.scaleX = 1.0f;
-            this.scaleY = 1.0f;
+            this.name = BoxSprite.Name.Uninitialized;
+
+            Debug.Assert(this.poRect != null);
+            this.poRect.Set(0, 0, 1, 1);
+
+            this.poAzulSpriteBox = new Azul.SpriteBox(this.poRect, this.poColor);
+            Debug.Assert(this.poAzulSpriteBox != null);
+
+            this.x = poAzulSpriteBox.x;
+            this.y = poAzulSpriteBox.y;
+            this.scaleX = poAzulSpriteBox.sx;
+            this.scaleY = poAzulSpriteBox.sy;
+            this.angle = poAzulSpriteBox.angle;
         }
 
         public void Set(Name name, float x, float y, float width, float height, Azul.Color poColor = null)
@@ -35,6 +45,16 @@ namespace SpaceInvaders.Nodes.Sprites
             }
             
             this.poAzulSpriteBox = new Azul.SpriteBox(this.poRect, this.poColor);
+        }
+
+        public void SetName(BoxSprite.Name name)
+        {
+            this.name = name;
+        }
+
+        public BoxSprite.Name GetName()
+        {
+            return this.name;
         }
 
         public override void SwapScreenRect(float x, float y, float width, float height)

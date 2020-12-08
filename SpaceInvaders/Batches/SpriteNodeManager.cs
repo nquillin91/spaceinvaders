@@ -1,9 +1,8 @@
-﻿using SpaceInvaders.Nodes;
-using SpaceInvaders.Nodes.Sprites;
+﻿using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
 
-namespace SpaceInvaders.Managers
+namespace SpaceInvaders.Batches
 {
     class SpriteNodeManager : Manager
     {
@@ -37,12 +36,21 @@ namespace SpaceInvaders.Managers
             spriteNode.Set(name);
         }
 
+        public void Attach(ProxySprite proxySprite)
+        {
+            SpriteNode spriteNode = (SpriteNode)this.BaseAddNode();
+            Debug.Assert(spriteNode != null);
+
+            spriteNode.Set(proxySprite);
+        }
+
         public void Draw()
         {
             SpriteNode temp = (SpriteNode)this.poActiveList;
 
             while (temp != null)
             {
+                temp.pSprite.Update();
                 temp.pSprite.Render();
 
                 temp = (SpriteNode)temp.pNext;
