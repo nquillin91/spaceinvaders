@@ -1,5 +1,7 @@
 ﻿
+using SpaceInvaders.Aliens;
 using SpaceInvaders.Collision;
+using SpaceInvaders.Composites;
 using SpaceInvaders.GameObjects;
 using SpaceInvaders.Sprites;
 using System.Diagnostics;
@@ -10,6 +12,7 @@ namespace SpaceInvaders
     {
         public float delta;
         private FallStrategy pStrategy;
+        private AlienColumn pAlienColumn;
 
         public Bomb(GameObject.Name name, GameSprite.Name spriteName, FallStrategy strategy, float posX, float posY)
             : base(name, spriteName, BombCategory.Type.Bomb)
@@ -23,17 +26,22 @@ namespace SpaceInvaders
 
             this.pStrategy.Reset(this.y);
 
-            this.poColObj.pColSprite.SetLineColor(1, 1, 0);
+            this.poColObj.pColSprite.SetLineColor(0.4f, 0.4f, 0.8f, 1.0f);
         }
 
-        public void Reset()
+        public void SetAlienColumn(AlienColumn pAlienColumn)
         {
-            this.y = 700.0f;
-            this.pStrategy.Reset(this.y);
+            this.pAlienColumn = pAlienColumn;
+        }
+
+        public AlienColumn GetAlienColumn()
+        {
+            return this.pAlienColumn;
         }
 
         public override void Remove()
         {
+            this.SetAlienColumn(null);
             // Since the Root object is being drawn
             // 1st set its size to zero
             this.poColObj.poColRect.Set(0, 0, 0, 0);
@@ -50,10 +58,21 @@ namespace SpaceInvaders
         public override void Update()
         {
             base.Update();
-            this.y -= delta;
+
+            if (!AlienManager.GetAlienGrid().GetHaltMovement())
+            {
+                this.y -= delta;
+            }
 
             // Strategy
             this.pStrategy.Fall(this);
+        }
+
+        public override void VisitMissile(Missile m)
+        {
+            ColPair pColPair = ColPairManager.GetActiveColPair();
+            pColPair.SetCollision(m, this);
+            pColPair.NotifyListeners();
         }
 
         public float GetBoundingBoxHeight()

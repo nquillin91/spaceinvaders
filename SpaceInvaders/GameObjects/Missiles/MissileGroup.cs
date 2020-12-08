@@ -14,7 +14,7 @@ namespace SpaceInvaders.GameObjects
             this.x = posX;
             this.y = posY;
 
-            this.poColObj.pColSprite.SetLineColor(0, 0, 1);
+            this.poColObj.pColSprite.SetLineColor(0.0f, 0.0f, 0.0f, 1.0f);
         }
 
         ~MissileGroup()

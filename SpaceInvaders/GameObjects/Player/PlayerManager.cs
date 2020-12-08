@@ -11,25 +11,51 @@ namespace SpaceInvaders.Player
     public class PlayerManager
     {
         private static PlayerManager pPlayerManagerInstance;
+        private static PlayerNumber playerNum;
         private PlayerShip pShip;
         private Missile pMissile;
 
-        private PlayerStateActive pStateActive;
-        private PlayerStateNoAmmo pStateNoAmmo;
-        //private readonly PlayerStateDead pStateDead;
+        // Player states
+        private PlayerStateFreeMove pStateFreeMove;
+        private PlayerStateNoMoveLeft pStateNoMoveLeft;
+        private PlayerStateNoMoveRight pStateNoMoveRight;
+        private readonly PlayerStateDead pStateDead;
+
+        // Missile States
+        private PlayerMissileStateReady pMissileStateReady;
+        private PlayerMissileStateNoAmmo pMissileStateNoAmmo;
+
+        public enum PlayerNumber
+        {
+            Player1,
+            Player2
+        }
 
         public enum State
         {
-            Active,
-            NoAmmo,
+            FreeMove,
+            NoMoveLeft,
+            NoMoveRight,
             Dead
+        }
+
+        public enum MissileState
+        {
+            Ready,
+            NoAmmo
         }
 
         private PlayerManager()
         {
-            this.pStateActive = new PlayerStateActive();
-            this.pStateNoAmmo = new PlayerStateNoAmmo();
-            //this.pStateDead = new PlayerStateDead();
+            // Setup player states
+            this.pStateFreeMove = new PlayerStateFreeMove();
+            this.pStateNoMoveLeft = new PlayerStateNoMoveLeft();
+            this.pStateNoMoveRight = new PlayerStateNoMoveRight();
+            this.pStateDead = new PlayerStateDead();
+
+            // Setup player missile states
+            this.pMissileStateReady = new PlayerMissileStateReady();
+            this.pMissileStateNoAmmo = new PlayerMissileStateNoAmmo();
 
             this.pShip = null;
             this.pMissile = null;
@@ -37,8 +63,6 @@ namespace SpaceInvaders.Player
 
         public static void Create()
         {
-            Debug.Assert(pPlayerManagerInstance == null);
-
             if (pPlayerManagerInstance == null)
             {
                 pPlayerManagerInstance = new PlayerManager();
@@ -47,7 +71,8 @@ namespace SpaceInvaders.Player
             Debug.Assert(pPlayerManagerInstance != null);
 
             pPlayerManagerInstance.pShip = ActivateShip();
-            pPlayerManagerInstance.pShip.SetState(PlayerManager.State.Active);
+            pPlayerManagerInstance.pShip.SetPlayerState(PlayerManager.State.FreeMove);
+            pPlayerManagerInstance.pShip.SetMissileState(PlayerManager.MissileState.Ready);
         }
 
         private static PlayerManager GetInstance()
@@ -55,6 +80,16 @@ namespace SpaceInvaders.Player
             Debug.Assert(pPlayerManagerInstance != null);
 
             return pPlayerManagerInstance;
+        }
+
+        public static PlayerNumber GetPlayerNumber()
+        {
+            return playerNum;
+        }
+
+        public static void SetPlayerNumber(PlayerNumber number)
+        {
+            playerNum = number;
         }
 
         public static PlayerShip GetShip()
@@ -76,17 +111,46 @@ namespace SpaceInvaders.Player
 
             switch (state)
             {
-                case PlayerManager.State.Active:
-                    pShipState = pShipMan.pStateActive;
+                case PlayerManager.State.FreeMove:
+                    pShipState = pShipMan.pStateFreeMove;
                     break;
 
-                case PlayerManager.State.NoAmmo:
-                    pShipState = pShipMan.pStateNoAmmo;
+                case PlayerManager.State.NoMoveLeft:
+                    pShipState = pShipMan.pStateNoMoveLeft;
                     break;
 
-                /*case PlayerManager.State.Dead:
+                case PlayerManager.State.NoMoveRight:
+                    pShipState = pShipMan.pStateNoMoveRight;
+                    break;
+
+                case PlayerManager.State.Dead:
                     pShipState = pShipMan.pStateDead;
-                    break;*/
+                    break;
+
+                default:
+                    Debug.Assert(false);
+                    break;
+            }
+
+            return pShipState;
+        }
+
+        public static PlayerMissileState GetMissileState(MissileState state)
+        {
+            PlayerManager pShipMan = PlayerManager.GetInstance();
+            Debug.Assert(pShipMan != null);
+
+            PlayerMissileState pShipState = null;
+
+            switch (state)
+            {
+                case PlayerManager.MissileState.Ready:
+                    pShipState = pShipMan.pMissileStateReady;
+                    break;
+
+                case PlayerManager.MissileState.NoAmmo:
+                    pShipState = pShipMan.pMissileStateNoAmmo;
+                    break;
 
                 default:
                     Debug.Assert(false);

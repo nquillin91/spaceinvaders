@@ -13,6 +13,7 @@ namespace SpaceInvaders.GameObjects
         {
             this.x = posX;
             this.y = posY;
+            this.points = 10;
         }
 
         ~Octopus()
@@ -38,11 +39,6 @@ namespace SpaceInvaders.GameObjects
             ColPair pColPair = ColPairManager.GetActiveColPair();
             pColPair.SetCollision(m, this);
             pColPair.NotifyListeners();
-        }
-
-        public override void Update()
-        {
-            base.Update();
         }
     }
 }

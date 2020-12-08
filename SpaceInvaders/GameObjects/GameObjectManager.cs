@@ -1,4 +1,5 @@
-﻿using SpaceInvaders.Composites;
+﻿using SpaceInvaders.Batches;
+using SpaceInvaders.Composites;
 using System;
 using System.Diagnostics;
 
@@ -36,7 +37,9 @@ namespace SpaceInvaders.GameObjects
 
         public static void Destroy()
         {
-
+            GameObjectManager gameObjectManager = GameObjectManager.GetInstance();
+            Debug.Assert(gameObjectManager != null);
+            gameObjectManager.BaseDestroy();
         }
 
         public static GameObjectNode Attach(GameObject pGameObject)
@@ -83,9 +86,6 @@ namespace SpaceInvaders.GameObjects
         public static void Remove(GameObjectNode pNode)
         {
             GameObjectManager pMan = GameObjectManager.GetInstance();
-            Debug.Assert(pMan != null);
-
-            Debug.Assert(pNode != null);
             pMan.BaseRemove(pNode);
         }
 

@@ -13,7 +13,20 @@ namespace SpaceInvaders.Timer
         public enum Name
         {
             BombSpawn,
+            
+            AlienDeath,
+            AliensMove,
+            
             SpriteAnimation,
+            
+            MissileExplosion,
+            MissileRemoval,
+            MissileReset,
+            
+            PlayerExplosion1,
+            PlayerExplosion2,
+            PlayerReset,
+
             Uninitialized
         }
 

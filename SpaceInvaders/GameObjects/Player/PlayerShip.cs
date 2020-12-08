@@ -12,6 +12,7 @@ namespace SpaceInvaders.Player
     {
         public float shipSpeed;
         private PlayerState state;
+        private PlayerMissileState missileState;
 
         public PlayerShip(GameObject.Name name, GameSprite.Name spriteName, float posX, float posY)
          : base(name, spriteName, PlayerCategory.Type.Player)
@@ -21,6 +22,7 @@ namespace SpaceInvaders.Player
 
             this.shipSpeed = 3.0f;
             this.state = null;
+            this.missileState = null;
         }
 
         public override void Update()
@@ -31,6 +33,13 @@ namespace SpaceInvaders.Player
         public override void Accept(ColVisitor other)
         {
             other.VisitPlayerShip(this);
+        }
+
+        public override void VisitBomb(Bomb b)
+        {
+            ColPair pColPair = ColPairManager.GetActiveColPair();
+            pColPair.SetCollision(b, this);
+            pColPair.NotifyListeners();
         }
 
         public void MoveRight()
@@ -45,22 +54,37 @@ namespace SpaceInvaders.Player
 
         public void ShootMissile()
         {
-            this.state.Shoot(this);
+            this.missileState.Shoot(this);
         }
 
-        public void SetState(PlayerManager.State inState)
+        public void SetPlayerState(PlayerManager.State inState)
         {
             this.state = PlayerManager.GetState(inState);
         }
 
-        public void Handle()
+        public void SetMissileState(PlayerManager.MissileState inState)
+        {
+            this.missileState = PlayerManager.GetMissileState(inState);
+        }
+
+        public void HandlePlayerState()
         {
             this.state.Handle(this);
+        }
+
+        public void HandleMissileState()
+        {
+            this.missileState.Handle(this);
         }
 
         public PlayerState GetState()
         {
             return this.state;
+        }
+
+        public PlayerMissileState GetMissileState()
+        {
+            return this.missileState;
         }
     }
 }

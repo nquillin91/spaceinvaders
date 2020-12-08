@@ -1,29 +1,25 @@
 ﻿using SpaceInvaders.Batches;
 using SpaceInvaders.Collision;
+using SpaceInvaders.Sound;
 using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
 
 namespace SpaceInvaders.GameObjects
 {
-    public class Missile : AlienCategory
+    public class Missile : MissileCoordinator
     {
-        public float delta = 3.0f;
-
         public Missile(GameObject.Name name, GameSprite.Name spriteName, float posX, float posY)
             : base(name, spriteName)
         {
             this.x = posX;
             this.y = posY;
 
-            this.poColObj.pColSprite.SetLineColor(255, 0, 0);
-        }
+            this.poColObj.pColSprite.SetLineColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        public override void Update()
-        {
-            base.Update();
-
-            this.y += delta;
+            AudioSource pSound = SoundManager.Find(AudioSource.Name.MissileShot);
+            Debug.Assert(pSound != null);
+            pSound.Play();
         }
 
         public override void Remove()
@@ -56,6 +52,11 @@ namespace SpaceInvaders.GameObjects
         {
             this.x = xPos;
             this.y = yPos;
+            this.pProxySprite.x = this.x;
+            this.pProxySprite.y = this.y;
+            this.pProxySprite.pSprite.x = this.x;
+            this.pProxySprite.pSprite.y = this.y;
+
         }
     }
 }

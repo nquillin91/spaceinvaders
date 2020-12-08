@@ -31,8 +31,7 @@ namespace SpaceInvaders.Collision
 
         public void UpdatePosition(float x, float y)
         {
-            this.poColRect.x = x;
-            this.poColRect.y = y;
+            this.poColRect.Set(x, y, this.poColRect.width, this.poColRect.height);
 
             this.pColSprite.x = this.poColRect.x;
             this.pColSprite.y = this.poColRect.y;

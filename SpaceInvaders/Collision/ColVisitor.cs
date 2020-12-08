@@ -24,6 +24,20 @@ namespace SpaceInvaders.Collision
             Debug.Assert(false);
         }
 
+        public virtual void VisitUFO(UFO u)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by Crab not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitUFORoot(UFORoot u)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by Crab not implemented");
+            Debug.Assert(false);
+        }
+
         public virtual void VisitCrab(Crab b)
         {
             // no differed to subcass

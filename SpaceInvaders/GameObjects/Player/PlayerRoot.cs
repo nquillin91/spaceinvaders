@@ -29,6 +29,18 @@ namespace SpaceInvaders.Player
             other.VisitPlayerRoot(this);
         }
 
+        public override void VisitBombRoot(BombRoot b)
+        {
+            // BombRoot vs PlayerRoot
+            ColPair.Collide((GameObject)Iterator.GetChild(b), this);
+        }
+
+        public override void VisitBomb(Bomb b)
+        {
+            // Missile vs PlayerRoot
+            ColPair.Collide(b, (GameObject)Iterator.GetChild(this));
+        }
+
         public override void Update()
         {
             base.BaseUpdateBoundingBox(this);

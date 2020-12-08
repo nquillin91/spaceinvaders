@@ -29,6 +29,19 @@ namespace SpaceInvaders
             other.VisitBombRoot(this);
         }
 
+        public override void VisitMissileGroup(MissileGroup m)
+        {
+            // MissileRoot vs ShieldRoot
+            GameObject pGameObj = (GameObject)Iterator.GetChild(m);
+            ColPair.Collide(pGameObj, this);
+        }
+
+        public override void VisitMissile(Missile m)
+        {
+            GameObject pGameObj = (GameObject)Iterator.GetChild(this);
+            ColPair.Collide(m, pGameObj);
+        }
+
         public override void Update()
         {
             // Go to first child

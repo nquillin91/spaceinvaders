@@ -1,5 +1,6 @@
 ﻿using SpaceInvaders.Collision;
 using SpaceInvaders.GameObjects;
+using SpaceInvaders.Player;
 using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
@@ -37,7 +38,15 @@ namespace SpaceInvaders
             pColPair.NotifyListeners();
         }
 
+        public override void VisitPlayerShip(PlayerShip b)
+        {
+        }
+
         public override void VisitMissile(Missile m)
+        {
+        }
+
+        public override void VisitAlienGrid(AlienGrid a)
         {
         }
 

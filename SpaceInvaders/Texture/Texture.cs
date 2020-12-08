@@ -8,13 +8,14 @@ namespace SpaceInvaders.Textures
         static private readonly Azul.Texture psDefaultAzulTexture = new Azul.Texture("HotPink.tga");
 
         private Name name;
-        public Azul.Texture poAzulTexture;
+        private Azul.Texture poAzulTexture;
 
         public enum Name
         {
             Default,
             SpaceInvaders,
             Shields,
+            Consolas36pt,
             NullObject,
             Uninitialized
         }
@@ -45,6 +46,11 @@ namespace SpaceInvaders.Textures
         public Texture.Name GetName()
         {
             return this.name;
+        }
+
+        public Azul.Texture GetAzulTexture()
+        {
+            return this.poAzulTexture;
         }
 
         public override void Wash()

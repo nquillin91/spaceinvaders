@@ -21,6 +21,8 @@ namespace SpaceInvaders
             if (pHead == null)
             {
                 pHead = pTail = pNode;
+				pNode.pNext = null;
+                pNode.pPrev = null;
             }
             else
             {
@@ -117,7 +119,7 @@ namespace SpaceInvaders
             }
         }
 
-        public static DLink RemoveFromFront(ref DLink pHead)
+        public static DLink RemoveFromFront(ref DLink pHead, ref DLink pTail)
         {
             DLink headNode = pHead;
 
@@ -128,6 +130,11 @@ namespace SpaceInvaders
 
             pHead = headNode.pNext;
             headNode.pNext = null;
+
+            if (headNode.pNext == null && headNode.pPrev == null)
+            {
+                pTail = null;
+            }
 
             return headNode;
         }

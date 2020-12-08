@@ -40,6 +40,12 @@ namespace SpaceInvaders
             ColPair.Collide(b, (GameObject)Iterator.GetChild(this));
         }
 
+        public override void VisitAlienGrid(AlienGrid a)
+        {
+            GameObject pGameObj = (GameObject)Iterator.GetChild(this);
+            ColPair.Collide(a, pGameObj);
+        }
+
         public override void Update()
         {
             base.BaseUpdateBoundingBox(this);

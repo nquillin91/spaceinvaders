@@ -15,7 +15,5 @@ namespace SpaceInvaders.States
         public abstract void MoveRight(PlayerShip pShip);
 
         public abstract void MoveLeft(PlayerShip pShip);
-
-        public abstract void Shoot(PlayerShip pShip);
     }
 }

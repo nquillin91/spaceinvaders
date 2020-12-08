@@ -1,6 +1,7 @@
 ﻿using SpaceInvaders.Collision;
 using SpaceInvaders.Composites;
 using SpaceInvaders.GameObjects;
+using SpaceInvaders.Player;
 using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
@@ -34,6 +35,24 @@ namespace SpaceInvaders
         {
             base.BaseUpdateBoundingBox(this);
             base.Update();
+        }
+
+        public override void VisitPlayerRoot(PlayerRoot b)
+        {
+            GameObject pGameObj = (GameObject)Iterator.GetChild(b);
+            ColPair.Collide(pGameObj, this);
+        }
+
+        public override void VisitPlayerShip(PlayerShip b)
+        {
+            GameObject pGameObj = (GameObject)Iterator.GetChild(this);
+            ColPair.Collide(b, pGameObj);
+        }
+
+        public override void VisitUFORoot(UFORoot u)
+        {
+            GameObject pGameObj = (GameObject)Iterator.GetChild(this);
+            ColPair.Collide(u, pGameObj);
         }
 
         public override void VisitAlienGrid(AlienGrid a)

@@ -54,7 +54,7 @@ namespace SpaceInvaders
                 this.GenerateReserveNodes(this.growthSize);
             }
 
-            DLink pLink = DLink.RemoveFromFront(ref this.poReserveList);
+            DLink pLink = DLink.RemoveFromFront(ref this.poReserveList, ref this.poReserveListTail);
 
             Debug.Assert(pLink != null);
             Debug.Assert(pLink.pNext == null);
@@ -79,7 +79,7 @@ namespace SpaceInvaders
         {
             if (this.CompareNodes(poActiveList, pNode))
             {
-                DLink.RemoveFromFront(ref this.poActiveList);
+                DLink.RemoveFromFront(ref this.poActiveList, ref this.poActiveListTail);
             } else
             {
                 DLink.RemoveNode(ref this.poActiveList, pNode);
@@ -118,22 +118,22 @@ namespace SpaceInvaders
             return temp;
         }
 
-        private void DestroyList(DLink listHead)
+        private void DestroyList(ref DLink listHead, ref DLink listTail)
         {
-            while (listHead != null && listHead.size > 0)
+            while (listHead != null)
             {
-                DLink removedNode = DLink.RemoveFromFront(ref listHead);
+                DLink removedNode = DLink.RemoveFromFront(ref listHead, ref listTail);
                 removedNode.Wash();
-                removedNode.Destroy();
-                // TODO: I cannot remember, do you need to set the variable itself to null?
+                removedNode.pNext = null;
+                removedNode.pPrev = null;
                 removedNode = null;
             }
         }
 
         public void BaseDestroy()
         {
-            this.DestroyList(this.poActiveList);
-            this.DestroyList(this.poReserveList);
+            this.DestroyList(ref this.poActiveList, ref this.poActiveListTail);
+            this.DestroyList(ref this.poReserveList, ref this.poReserveListTail);
         }
 
         protected abstract DLink CreateNode();

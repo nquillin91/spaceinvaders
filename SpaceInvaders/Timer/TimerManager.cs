@@ -106,7 +106,7 @@ namespace SpaceInvaders.Timer
                 this.GenerateReserveNodes(this.growthSize);
             }
 
-            DLink pLink = DLink.RemoveFromFront(ref this.poReserveList);
+            DLink pLink = DLink.RemoveFromFront(ref this.poReserveList, ref this.poReserveListTail);
 
             Debug.Assert(pLink != null);
             Debug.Assert(pLink.pNext == null);
@@ -177,9 +177,9 @@ namespace SpaceInvaders.Timer
 
         public static void Destroy()
         {
-            TimerManager spriteBatchMan = TimerManager.GetInstance();
-            Debug.Assert(spriteBatchMan != null);
-            spriteBatchMan.BaseDestroy();
+            TimerManager timerManager = TimerManager.GetInstance();
+            Debug.Assert(timerManager != null);
+            timerManager.BaseDestroy();
         }
     }
 }

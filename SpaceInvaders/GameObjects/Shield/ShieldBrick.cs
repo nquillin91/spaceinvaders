@@ -16,6 +16,7 @@ namespace SpaceInvaders.Shield
 
             this.SetCollisionColor(1.0f, 1.0f, 1.0f);
         }
+        
         ~ShieldBrick()
         {
 
@@ -43,6 +44,15 @@ namespace SpaceInvaders.Shield
             //Debug.WriteLine(" ---> Done");
             ColPair pColPair = ColPairManager.GetActiveColPair();
             pColPair.SetCollision(b, this);
+            pColPair.NotifyListeners();
+        }
+
+        public override void VisitAlienGrid(AlienGrid a)
+        {
+            ColPair pColPair = ColPairManager.GetActiveColPair();
+            Debug.Assert(pColPair != null);
+
+            pColPair.SetCollision(a, this);
             pColPair.NotifyListeners();
         }
 

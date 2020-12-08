@@ -17,7 +17,7 @@ namespace SpaceInvaders
             this.x = posX;
             this.y = posY;
 
-            this.poColObj.pColSprite.SetLineColor(0, 0, 0);
+            this.poColObj.pColSprite.SetLineColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
         ~WallTop()

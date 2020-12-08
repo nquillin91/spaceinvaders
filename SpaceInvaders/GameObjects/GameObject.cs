@@ -9,21 +9,28 @@ namespace SpaceInvaders.GameObjects
 {
     public abstract class GameObject : Component
     {
-        public uint instanceId = 0u;
         public GameObject.Name name;
+
+        public uint instanceId = 0u;
+        protected Azul.Color prevColor = new Azul.Color(0.0f, 0.0f, 0.0f, 1.0f);
+        static private Azul.Color psTmpColor = new Azul.Color(1, 1, 1);
 
         public float x;
         public float y;
+
+        public bool bMarkForDeath;
+
         public ProxySprite pProxySprite;
-        protected ColObject poColObj;
-        protected Azul.Color prevColor = new Azul.Color(0.4f, 0.4f, 0.8f, 1.0f);
-        static private Azul.Color psTmpColor = new Azul.Color(1, 1, 1);
+        public ColObject poColObj;
 
         public enum Name
         {
             Squid,
             Crab,
             Octopus,
+
+            UFO,
+            UFORoot,
 
             AlienGrid,
             AlienColumn,
@@ -33,6 +40,7 @@ namespace SpaceInvaders.GameObjects
 
             Missile,
             MissileGroup,
+            DeadMissile,
 
             Player,
             PlayerRoot,
@@ -50,13 +58,13 @@ namespace SpaceInvaders.GameObjects
 
             WallTop,
             WallBottom,
+            WallRight,
+            WallLeft,
             WallGroup,
 
             NullObject,
             Uninitialized
         }
-
-        protected GameObject() { }
 
         protected GameObject(GameObject.Name gameName) : base()
         {
@@ -71,6 +79,7 @@ namespace SpaceInvaders.GameObjects
             this.name = gameName;
             this.x = 0.0f;
             this.y = 0.0f;
+            this.bMarkForDeath = false;
             this.pProxySprite = ProxySpriteManager.Add(spriteName);
 
             this.poColObj = new ColObject(this.pProxySprite);
@@ -102,10 +111,14 @@ namespace SpaceInvaders.GameObjects
             Debug.Assert(this.poColObj.pColSprite != null);
             Debug.Assert(this.prevColor != null);
 
-            GameObject.psTmpColor.Set(this.poColObj.pColSprite.GetLineColor());
+            if (this.name != Name.WallTop &&
+                this.name != Name.WallBottom)
+            {
+                GameObject.psTmpColor.Set(this.poColObj.pColSprite.GetLineColor());
 
-            this.poColObj.pColSprite.SetLineColor(this.prevColor);
-            this.prevColor.Set(GameObject.psTmpColor);
+                this.poColObj.pColSprite.SetLineColor(this.prevColor);
+                this.prevColor.Set(GameObject.psTmpColor);
+            }
         }
 
         ~GameObject()
@@ -115,8 +128,10 @@ namespace SpaceInvaders.GameObjects
 
         public virtual void Remove()
         {
+            Debug.WriteLine("REMOVE: {0}", this);
+
+            // Find the SpriteNode
             Debug.Assert(this.pProxySprite != null);
-            this.pProxySprite.pSprite.poScreenRect.Clear();
             SpriteNode pSpriteNode = this.pProxySprite.GetSpriteNode();
 
             // Remove it from the manager
@@ -140,7 +155,6 @@ namespace SpaceInvaders.GameObjects
 
             Debug.Assert(this.poColObj != null);
             this.poColObj.UpdatePosition(this.x, this.y);
-
             Debug.Assert(this.poColObj.pColSprite != null);
             this.poColObj.pColSprite.Update();
         }

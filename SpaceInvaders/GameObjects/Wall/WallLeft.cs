@@ -1,5 +1,8 @@
-﻿using SpaceInvaders.Collision;
+﻿using SpaceInvaders.Aliens;
+using SpaceInvaders.Collision;
+using SpaceInvaders.Composites;
 using SpaceInvaders.GameObjects;
+using SpaceInvaders.Player;
 using SpaceInvaders.Sprites;
 using System;
 using System.Diagnostics;
@@ -16,7 +19,7 @@ namespace SpaceInvaders
             this.x = posX;
             this.y = posY;
 
-            this.poColObj.pColSprite.SetLineColor(1, 1, 0);
+            this.poColObj.pColSprite.SetLineColor(0, 0, 0);
         }
 
         ~WallLeft()
@@ -37,8 +40,22 @@ namespace SpaceInvaders
             base.Update();
         }
 
+        public override void VisitBomb(Bomb b)
+        {
+        }
+
+        public override void VisitPlayerShip(PlayerShip b)
+        {
+            PlayerManager.GetShip().SetPlayerState(PlayerManager.State.NoMoveLeft);
+        }
+
         public override void VisitAlienGrid(AlienGrid a)
         {
+            Debug.WriteLine("\ncollide: {0} with {1}", this, a);
+            Debug.WriteLine("\nWall X: {0} Y: {1}", this.x, this.y);
+            Debug.WriteLine("\nGrid X: {0} Y: {1}", a.x, a.y);
+            Debug.WriteLine("               --->DONE<----");
+
             ColPair pColPair = ColPairManager.GetActiveColPair();
             Debug.Assert(pColPair != null);
 

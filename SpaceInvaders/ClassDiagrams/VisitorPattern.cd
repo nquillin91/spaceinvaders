@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SpaceInvaders.Collision.ColVisitor">
+    <Position X="1.75" Y="1.25" Width="1.5" />
+    <Members>
+      <Method Name="VisitAlienColumn" Hidden="true" />
+      <Method Name="VisitBombRoot" Hidden="true" />
+      <Method Name="VisitMissileGroup" Hidden="true" />
+      <Method Name="VisitNullGameObject" Hidden="true" />
+      <Method Name="VisitPlayerRoot" Hidden="true" />
+      <Method Name="VisitShieldColumn" Hidden="true" />
+      <Method Name="VisitShieldGrid" Hidden="true" />
+      <Method Name="VisitShieldRoot" Hidden="true" />
+      <Method Name="VisitUFORoot" Hidden="true" />
+      <Method Name="VisitWallBottom" Hidden="true" />
+      <Method Name="VisitWallLeft" Hidden="true" />
+      <Method Name="VisitWallRight" Hidden="true" />
+      <Method Name="VisitWallTop" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIQhACCAAAAAQAABDAihAAAADgAAAAAMAiEAAAAAACA=</HashCode>
+      <FileName>Collision\ColVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Composites.Component" Collapsed="true">
+    <Position X="3.5" Y="4.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="SpaceInvaders.Composites.Component.Container" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Composite\Component.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAgAAAAAAIAAAgAAAABAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Composite\Component.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.GameObjects.GameObject" Collapsed="true">
+    <Position X="2.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAACEAAAQAAAAAAABIFAAAAEIEQAAABqAAAABAA=</HashCode>
+      <FileName>GameObjects\GameObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

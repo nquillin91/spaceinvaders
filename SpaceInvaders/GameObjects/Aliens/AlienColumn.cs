@@ -11,6 +11,8 @@ namespace SpaceInvaders.GameObjects
 {
     public class AlienColumn : Composite
     {
+        public Bomb pBomb;
+
         public AlienColumn(GameObject.Name name, GameSprite.Name spriteName, float posX, float posY)
         : base(name, spriteName)
         {
@@ -32,6 +34,11 @@ namespace SpaceInvaders.GameObjects
             // MissileGroup vs Columns
             GameObject pGameObj = (GameObject)Iterator.GetChild(this);
             ColPair.Collide(m, pGameObj);
+        }
+
+        public GameObject GetLastAlien()
+        {
+            return (GameObject)this.poTail;
         }
 
         public override void Update()

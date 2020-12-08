@@ -18,12 +18,24 @@ namespace SpaceInvaders.Collision
             MissileWall,
             MissileShield,
 
+            BombMissile,
+            BombPlayer,
             BombShield,
             BombWall,
             BombAlien,
 
+            AlienWall,
+            AlienRightWall,
+            AlienLeftWall,
+            AlienShield,
+
+            UFOMissile,
+            UFOWall,
+
+            PlayerWall,
+
             NullObject,
-            Not_Initialized
+            Uninitialized
         }
 
         public ColPair()
@@ -31,7 +43,7 @@ namespace SpaceInvaders.Collision
         {
             this.treeA = null;
             this.treeB = null;
-            this.name = ColPair.Name.Not_Initialized;
+            this.name = ColPair.Name.Uninitialized;
 
             this.poSubject = new ColSubject();
             Debug.Assert(this.poSubject != null);
@@ -63,7 +75,7 @@ namespace SpaceInvaders.Collision
 
             this.treeA = null;
             this.treeB = null;
-            this.name = ColPair.Name.Not_Initialized;
+            this.name = ColPair.Name.Uninitialized;
         }
 
         public ColPair.Name GetName()

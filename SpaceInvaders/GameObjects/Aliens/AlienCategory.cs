@@ -10,12 +10,17 @@ namespace SpaceInvaders.GameObjects
 {
     abstract public class AlienCategory : Leaf
     {
+        protected int points;
+
         public enum Type
         {
             // temporary location --> move this
             Crab,
             Squid,
             Octopus,
+
+            UFO,
+            UFORoot,
 
             Column,
             Grid,
@@ -27,6 +32,11 @@ namespace SpaceInvaders.GameObjects
             : base(name, spriteName)
         {
             this.instanceId = UUIDGenerator.GetNewId();
+        }
+
+        public int GetPoints()
+        {
+            return this.points;
         }
     }
 }

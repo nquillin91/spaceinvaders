@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SpaceInvaders.FallStrategy">
+    <Position X="3.25" Y="1.25" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="SpaceInvaders.FallStrategy.Type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameObjects\Bomb\FallStrategy.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Bomb\FallStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.FallZigZag" Collapsed="true">
+    <Position X="1" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAgAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Bomb\FallZigZag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.FallStraight" Collapsed="true">
+    <Position X="5.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAgAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Bomb\FallStraight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.FallDagger" Collapsed="true">
+    <Position X="3" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAgAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Bomb\FallDagger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
