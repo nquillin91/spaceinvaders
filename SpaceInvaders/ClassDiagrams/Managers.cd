@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SpaceInvaders.Manager">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <Members>
+      <Field Name="poActiveListTail" Hidden="true" />
+      <Field Name="poReserveListTail" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>gAAgAAAAAAAAgiAAAIlABAICAAAABQABAAAAQAAAAAA=</HashCode>
+      <FileName>Abstract\Manager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Batches.SpriteBatchManager" Collapsed="true">
+    <Position X="7.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAgAAAAEEBAECBABIAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Batches\SpriteBatchManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Batches.SpriteNodeManager" Collapsed="true">
+    <Position X="7.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABgAAAAEEBAACAIBEAAAAAEAABAAAAAQ=</HashCode>
+      <FileName>Batches\SpriteNodeManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Collision.ColPairManager" Collapsed="true">
+    <Position X="7.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIAAAAAACACAAAAAgEABAACBABIAEAAAEAAAAAAAAA=</HashCode>
+      <FileName>Collision\ColPairManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.GameObjects.GameObjectManager" Collapsed="true">
+    <Position X="7.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAAQAAAAAAAAAAAAEABAACBIBIBEAiAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\GameObjectManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Images.ImageManager" Collapsed="true">
+    <Position X="9.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAACAAAAEEBAACBABIAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Images\ImageManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Sprites.BoxSpriteManager" Collapsed="true">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAEEEBAACBABIAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sprites\BoxSpriteManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Sprites.GameSpriteManager" Collapsed="true">
+    <Position X="12.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAEEEBAACBABIAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sprites\GameSpriteManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Sprites.ProxySpriteManager" Collapsed="true">
+    <Position X="12" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIAAAAAAAAAAAAAAAEABAACBAAIAEBAAAAAAAAAAAA=</HashCode>
+      <FileName>Sprites\ProxySpriteManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Textures.TextureManager" Collapsed="true">
+    <Position X="11.75" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="SpaceInvaders.Manager" FixedToPoint="true">
+      <Path>
+        <Point X="10.25" Y="3.75" />
+        <Point X="10.25" Y="3.55" />
+        <Point X="11.375" Y="3.55" />
+        <Point X="11.375" Y="2.25" />
+        <Point X="11.75" Y="2.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAEEBAACBQBIAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Texture\TextureManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Timer.TimerManager" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <InheritanceLine Type="SpaceInvaders.Manager" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.25" Y="3.75" />
+        <Point X="10.25" Y="2.816" />
+        <Point X="10.188" Y="2.816" />
+        <Point X="10.188" Y="2.441" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAYAEAQAAAAAAAAAAAEEBAACBABIAEIAAQAAAAAAAAA=</HashCode>
+      <FileName>Timer\TimerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -14,6 +14,7 @@ namespace SpaceInvaders.Batches
             Aliens,
             Player,
             Boxes,
+            Shields,
             Uninitialized
         }
 

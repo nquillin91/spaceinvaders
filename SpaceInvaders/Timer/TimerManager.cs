@@ -101,7 +101,7 @@ namespace SpaceInvaders.Timer
 
         private DLink AddNodeBySpecifiedTime(float deltaTimeToTrigger)
         {
-            if (this.poReserveList.size == 0)
+            if (this.poReserveList == null || this.poReserveList.size == 0)
             {
                 this.GenerateReserveNodes(this.growthSize);
             }
@@ -138,8 +138,15 @@ namespace SpaceInvaders.Timer
                 }
             }
 
-            this.poActiveList.size++;
-            this.poReserveList.size--;
+            if (poActiveList != null)
+            {
+                poActiveList.size++;
+            }
+
+            if (poReserveList != null)
+            {
+                poReserveList.size--;
+            }
 
             return pLink;
         }

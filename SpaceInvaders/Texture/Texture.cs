@@ -14,6 +14,7 @@ namespace SpaceInvaders.Textures
         {
             Default,
             SpaceInvaders,
+            Shields,
             NullObject,
             Uninitialized
         }

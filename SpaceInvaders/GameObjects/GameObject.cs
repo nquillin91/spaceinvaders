@@ -16,7 +16,8 @@ namespace SpaceInvaders.GameObjects
         public float y;
         public ProxySprite pProxySprite;
         protected ColObject poColObj;
-        public SpriteBatch pAssociatedSpriteBatch;
+        protected Azul.Color prevColor = new Azul.Color(0.4f, 0.4f, 0.8f, 1.0f);
+        static private Azul.Color psTmpColor = new Azul.Color(1, 1, 1);
 
         public enum Name
         {
@@ -27,11 +28,29 @@ namespace SpaceInvaders.GameObjects
             AlienGrid,
             AlienColumn,
 
+            Bomb,
+            BombRoot,
+
             Missile,
             MissileGroup,
 
             Player,
             PlayerRoot,
+
+            ShieldRoot,
+            ShieldGrid,
+            ShieldColumn_0,
+            ShieldColumn_1,
+            ShieldColumn_2,
+            ShieldColumn_3,
+            ShieldColumn_4,
+            ShieldColumn_5,
+            ShieldColumn_6,
+            ShieldBrick,
+
+            WallTop,
+            WallBottom,
+            WallGroup,
 
             NullObject,
             Uninitialized
@@ -69,6 +88,26 @@ namespace SpaceInvaders.GameObjects
             return this.poColObj;
         }
 
+        public void SetCollisionColor(float red, float green, float blue, float alpha = 1.0f)
+        {
+            Debug.Assert(this.poColObj != null);
+            Debug.Assert(this.poColObj.pColSprite != null);
+
+            this.poColObj.pColSprite.SetLineColor(red, green, blue, alpha);
+        }
+
+        public void ToggleCollisions()
+        {
+            Debug.Assert(this.poColObj != null);
+            Debug.Assert(this.poColObj.pColSprite != null);
+            Debug.Assert(this.prevColor != null);
+
+            GameObject.psTmpColor.Set(this.poColObj.pColSprite.GetLineColor());
+
+            this.poColObj.pColSprite.SetLineColor(this.prevColor);
+            this.prevColor.Set(GameObject.psTmpColor);
+        }
+
         ~GameObject()
         {
 
@@ -77,6 +116,7 @@ namespace SpaceInvaders.GameObjects
         public virtual void Remove()
         {
             Debug.Assert(this.pProxySprite != null);
+            this.pProxySprite.pSprite.poScreenRect.Clear();
             SpriteNode pSpriteNode = this.pProxySprite.GetSpriteNode();
 
             // Remove it from the manager
@@ -115,8 +155,7 @@ namespace SpaceInvaders.GameObjects
         public void ActivateGameSprite(SpriteBatch pSpriteBatch)
         {
             Debug.Assert(pSpriteBatch != null);
-            this.pAssociatedSpriteBatch = pSpriteBatch;
-            this.pAssociatedSpriteBatch.Attach(this.pProxySprite);
+            pSpriteBatch.Attach(this.pProxySprite);
         }
 
         protected void BaseUpdateBoundingBox(Component pStart)
@@ -135,7 +174,7 @@ namespace SpaceInvaders.GameObjects
                 // loop through sliblings
                 while (pNode != null)
                 {
-                    ColTotal.Union(pNode.poColObj.poColRect);
+                     ColTotal.Union(pNode.poColObj.poColRect);
 
                     pNode = (GameObject)Iterator.GetSibling(pNode);
                 }

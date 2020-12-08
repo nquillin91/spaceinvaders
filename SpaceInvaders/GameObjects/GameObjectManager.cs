@@ -6,6 +6,7 @@ namespace SpaceInvaders.GameObjects
 {
     class GameObjectManager : Manager
     {
+        public static bool processingToggle = false;
         private static GameObjectManager pGameObjectManagerInstance = null;
         private readonly GameObjectNode poNodeCompare;
         private readonly NullGameObject poNullGameObject;
@@ -147,6 +148,31 @@ namespace SpaceInvaders.GameObjects
                     GameObject pGameObj = (GameObject)pNode;
 
                     pGameObj.Update();
+
+                    pNode = pRev.Next();
+                }
+
+                pGameObjectNode = (GameObjectNode)pGameObjectNode.pNext;
+            }
+        }
+
+        public static void ToggleCollisionBoxes()
+        {
+            GameObjectManager pMan = GameObjectManager.GetInstance();
+            Debug.Assert(pMan != null);
+
+            GameObjectNode pGameObjectNode = (GameObjectNode)pMan.poActiveList;
+
+            while (pGameObjectNode != null)
+            {
+                ReverseIterator pRev = new ReverseIterator(pGameObjectNode.poGameObj);
+
+                Component pNode = pRev.First();
+                while (!pRev.IsDone())
+                {
+                    GameObject pGameObj = (GameObject)pNode;
+
+                    pGameObj.ToggleCollisions();
 
                     pNode = pRev.Next();
                 }

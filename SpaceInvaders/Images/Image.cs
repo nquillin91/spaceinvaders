@@ -48,6 +48,7 @@ namespace SpaceInvaders.Images
             RollingShotC,
             RollingShotD,
             AlienShotExplosion,
+
             A,
             B,
             C,
@@ -74,6 +75,7 @@ namespace SpaceInvaders.Images
             X,
             Y,
             Z,
+
             Zero,
             One,
             Two,
@@ -91,6 +93,15 @@ namespace SpaceInvaders.Images
             Asterisk,
             Question,
             Hyphen,
+
+            Brick,
+            BrickLeft_Top0,
+            BrickLeft_Top1,
+            BrickLeft_Bottom,
+            BrickRight_Top0,
+            BrickRight_Top1,
+            BrickRight_Bottom,
+
             Default,
             NullObject,
             Uninitialized

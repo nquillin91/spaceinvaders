@@ -15,6 +15,12 @@ namespace SpaceInvaders.Collision
         public enum Name
         {
             Missile,
+            MissileWall,
+            MissileShield,
+
+            BombShield,
+            BombWall,
+            BombAlien,
 
             NullObject,
             Not_Initialized

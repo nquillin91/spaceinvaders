@@ -26,6 +26,20 @@ namespace SpaceInvaders.GameObjects
             this.y += delta;
         }
 
+        public override void Remove()
+        {
+            this.x = 0;
+            this.y = 0;
+            this.poColObj.poColRect.Set(0, 0, 0, 0);
+            base.Update();
+
+            // Update the parent (missile root)
+            GameObject pParent = (GameObject)this.pParent;
+            pParent.Update();
+
+            base.Remove();
+        }
+
         ~Missile()
         {
 

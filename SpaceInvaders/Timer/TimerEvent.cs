@@ -12,8 +12,7 @@ namespace SpaceInvaders.Timer
 
         public enum Name
         {
-            SampleCommand,
-            SampleRepeatedCommand,
+            BombSpawn,
             SpriteAnimation,
             Uninitialized
         }

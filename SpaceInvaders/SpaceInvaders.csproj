@@ -81,6 +81,13 @@
     <Compile Include="GameObjects\Aliens\AlienColumn.cs" />
     <Compile Include="GameObjects\Aliens\AlienFactory.cs" />
     <Compile Include="GameObjects\Aliens\AlienGrid.cs" />
+    <Compile Include="GameObjects\Bomb\Bomb.cs" />
+    <Compile Include="GameObjects\Bomb\BombCategory.cs" />
+    <Compile Include="GameObjects\Bomb\BombRoot.cs" />
+    <Compile Include="GameObjects\Bomb\FallDagger.cs" />
+    <Compile Include="GameObjects\Bomb\FallStraight.cs" />
+    <Compile Include="GameObjects\Bomb\FallStrategy.cs" />
+    <Compile Include="GameObjects\Bomb\FallZigZag.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectManager.cs" />
     <Compile Include="GameObjects\GameObjectNode.cs" />
@@ -94,17 +101,33 @@
     <Compile Include="GameObjects\Player\PlayerManager.cs" />
     <Compile Include="GameObjects\Player\PlayerRoot.cs" />
     <Compile Include="GameObjects\Player\PlayerShip.cs" />
+    <Compile Include="GameObjects\Shield\ShieldBrick.cs" />
+    <Compile Include="GameObjects\Shield\ShieldCategory.cs" />
+    <Compile Include="GameObjects\Shield\ShieldColumn.cs" />
+    <Compile Include="GameObjects\Shield\ShieldFactory.cs" />
+    <Compile Include="GameObjects\Shield\ShieldGrid.cs" />
+    <Compile Include="GameObjects\Shield\ShieldRoot.cs" />
     <Compile Include="GameObjects\UUIDGenerator.cs" />
+    <Compile Include="GameObjects\Wall\WallBottom.cs" />
+    <Compile Include="GameObjects\Wall\WallCategory.cs" />
+    <Compile Include="GameObjects\Wall\WallGroup.cs" />
+    <Compile Include="GameObjects\Wall\WallLeft.cs" />
+    <Compile Include="GameObjects\Wall\WallRight.cs" />
+    <Compile Include="GameObjects\Wall\WallTop.cs" />
     <Compile Include="Images\ImageHolder.cs" />
     <Compile Include="Observers\PlayerStateChangeObserver.cs" />
     <Compile Include="Observers\RemoveAlienObserver.cs" />
+    <Compile Include="Observers\RemoveBombObserver.cs" />
     <Compile Include="Observers\RemoveMissileObserver.cs" />
+    <Compile Include="Observers\RemoveShieldObserver.cs" />
+    <Compile Include="Scenes\Round1Scene.cs" />
     <Compile Include="Sprites\ProxySprite.cs" />
     <Compile Include="Sprites\ProxySpriteManager.cs" />
     <Compile Include="States\PlayerState.cs" />
     <Compile Include="States\PlayerStateActive.cs" />
     <Compile Include="States\PlayerStateNoAmmo.cs" />
     <Compile Include="Timer\AnimationSpriteCommand.cs" />
+    <Compile Include="Timer\BombSpawnCommand.cs" />
     <Compile Include="Timer\Command.cs" />
     <Compile Include="Sprites\BoxSpriteManager.cs" />
     <Compile Include="Batches\SpriteBatchManager.cs" />
@@ -125,13 +148,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprites\GameSpriteManager.cs" />
     <Compile Include="Texture\TextureManager.cs" />
-    <Compile Include="Timer\SampleCommand.cs" />
-    <Compile Include="Timer\SampleRepeatedCommand.cs" />
     <Compile Include="Timer\TimerEvent.cs" />
     <Compile Include="Timer\TimerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagrams\Managers.cd" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

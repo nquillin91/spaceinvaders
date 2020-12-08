@@ -37,7 +37,7 @@ namespace SpaceInvaders.Collision
             this.pColSprite.x = this.poColRect.x;
             this.pColSprite.y = this.poColRect.y;
 
-            this.pColSprite.SwapScreenRect(this.poColRect.x, this.poColRect.y, this.poColRect.width, this.poColRect.height);
+            this.pColSprite.SetScreenRect(this.poColRect.x, this.poColRect.y, this.poColRect.width, this.poColRect.height);
             this.pColSprite.Update();
         }
     }

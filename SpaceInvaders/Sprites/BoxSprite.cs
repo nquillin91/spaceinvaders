@@ -102,6 +102,11 @@ namespace SpaceInvaders.Sprites
             return this.name;
         }
 
+        public Azul.Color GetLineColor()
+        {
+            return this.poLineColor;
+        }
+
         public override void SwapScreenRect(float x, float y, float width, float height)
         {
             base.SwapScreenRect(x, y, width, height);
@@ -109,10 +114,21 @@ namespace SpaceInvaders.Sprites
             this.poAzulBoxSprite.SwapScreenRect(this.poScreenRect);
         }
 
+        public void SetLineColor(Azul.Color pColor)
+        {
+            this.poLineColor.Set(pColor);
+            this.poAzulBoxSprite.SwapColor(this.poLineColor);
+        }
+
         public void SetLineColor(float red, float green, float blue, float alpha = 1.0f)
         {
             this.poLineColor.Set(red, green, blue, alpha);
             this.poAzulBoxSprite.SwapColor(this.poLineColor);
+        }
+
+        public void SetScreenRect(float x, float y, float width, float height)
+        {
+            this.Set(this.name, x, y, width, height);
         }
 
         public override void Update()

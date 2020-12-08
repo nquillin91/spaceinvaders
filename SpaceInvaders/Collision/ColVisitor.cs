@@ -1,5 +1,6 @@
 ﻿using SpaceInvaders.GameObjects;
 using SpaceInvaders.Player;
+using SpaceInvaders.Shield;
 using System;
 using System.Diagnostics;
 
@@ -9,14 +10,14 @@ namespace SpaceInvaders.Collision
     abstract public class ColVisitor : DLink
     {
 
-        public virtual void VisitGroup(AlienGrid b)
+        public virtual void VisitAlienGrid(AlienGrid b)
         {
             // no differed to subcass
             Debug.WriteLine("Visit by AlienGrid not implemented");
             Debug.Assert(false);
         }
 
-        public virtual void VisitColumn(AlienColumn b)
+        public virtual void VisitAlienColumn(AlienColumn b)
         {
             // no differed to subcass
             Debug.WriteLine("Visit by AlienColumn not implemented");
@@ -58,6 +59,20 @@ namespace SpaceInvaders.Collision
             Debug.Assert(false);
         }
 
+        public virtual void VisitBomb(Bomb b)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by Bomb not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitBombRoot(BombRoot b)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by BombRoot not implemented");
+            Debug.Assert(false);
+        }
+
         public virtual void VisitPlayerShip(PlayerShip b)
         {
             // no differed to subcass
@@ -69,6 +84,69 @@ namespace SpaceInvaders.Collision
         {
             // no differed to subcass
             Debug.WriteLine("Visit by PlayerRoot not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitWallGroup(WallGroup w)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by WallGroup not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitWallTop(WallTop w)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by WallTop not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitWallBottom(WallBottom w)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by WallBottom not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitWallLeft(WallLeft w)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by WallLeft not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitWallRight(WallRight w)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by WallRight not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitShieldBrick(ShieldBrick s)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by ShieldBrick not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitShieldRoot(ShieldRoot s)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by ShieldRoot not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitShieldColumn(ShieldColumn s)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by ShieldColumn not implemented");
+            Debug.Assert(false);
+        }
+
+        public virtual void VisitShieldGrid(ShieldGrid s)
+        {
+            // no differed to subcass
+            Debug.WriteLine("Visit by ShieldGrid not implemented");
             Debug.Assert(false);
         }
 

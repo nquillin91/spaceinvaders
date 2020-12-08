@@ -22,6 +22,20 @@ namespace SpaceInvaders.Sprites
 
             Missile,
 
+            Wall,
+
+            BombStraight,
+            BombZigZag,
+            BombDagger,
+
+            Brick,
+            Brick_LeftTop0,
+            Brick_LeftTop1,
+            Brick_LeftBottom,
+            Brick_RightTop0,
+            Brick_RightTop1,
+            Brick_RightBottom,
+
             NullObject,
             Uninitialized
         }

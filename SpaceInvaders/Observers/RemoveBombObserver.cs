@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SpaceInvaders.Observers
 {
-    class RemoveMissileObserver : ColObserver
+    class RemoveBombObserver : ColObserver
     {
         public override void Notify()
         {

@@ -24,7 +24,7 @@ namespace SpaceInvaders.GameObjects
         {
             // Important: at this point we have an BirdColumn
             // Call the appropriate collision reaction            
-            other.VisitColumn(this);
+            other.VisitAlienColumn(this);
         }
 
         public override void VisitMissileGroup(MissileGroup m)
