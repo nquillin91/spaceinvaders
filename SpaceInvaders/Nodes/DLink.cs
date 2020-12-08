@@ -7,15 +7,11 @@ namespace SpaceInvaders
     {
         public DLink pNext;
         public DLink pPrev;
+        public int size;
 
         public DLink()
         {
             this.Wash();
-        }
-
-        public virtual void Wash() {
-            pNext = null;
-            pNext = null;
         }
 
         public static void AddFirst(ref DLink pHead, ref DLink pTail, ref DLink pNode)
@@ -60,8 +56,18 @@ namespace SpaceInvaders
                 {
                     pNode.pPrev = temp.pPrev;
                     pNode.pNext = temp;
-                    temp.pPrev.pNext = pNode;
+
+                    if (temp.pPrev != null)
+                    {
+                        temp.pPrev.pNext = pNode;
+                    }
+                    
                     temp.pPrev = pNode;
+                    
+                    if (temp == pHead)
+                    {
+                        pHead = pNode;
+                    }
 
                     break;
                 }
@@ -84,11 +90,13 @@ namespace SpaceInvaders
                 {
                     pNode.pPrev = temp;
                     pNode.pNext = temp.pNext;
-                    temp.pNext.pPrev = pNode;
-                    temp.pNext = pNode;
 
-                    pTargetNode.pNext = null;
-                    pTargetNode.pPrev = null;
+                    if (temp.pNext != null)
+                    {
+                        temp.pNext.pPrev = pNode;
+                    }
+                    
+                    temp.pNext = pNode;
 
                     break;
                 }
@@ -142,6 +150,15 @@ namespace SpaceInvaders
             return headNode;
         }
 
-        public abstract void DumpNode();
+        public virtual void Wash()
+        {
+            this.pNext = null;
+            this.pNext = null;
+            this.size = 0;
+        }
+
+        public abstract void Dump();
+
+        public virtual void Destroy() {}
     }
 }

@@ -50,9 +50,10 @@ namespace SpaceInvaders
 
         public static void Remove(Texture texture)
         {
-            TextureManager textureMan = TextureManager.GetInstance();
-
             Debug.Assert(texture != null);
+
+            TextureManager textureMan = TextureManager.GetInstance();
+            Debug.Assert(textureMan != null);
 
             textureMan.BaseRemove(texture);
         }
@@ -66,6 +67,14 @@ namespace SpaceInvaders
             Texture texture = (Texture)textureMan.BaseFind(textureMan.poCompareNode);
 
             return texture;
+        }
+
+        protected override DLink CreateNode()
+        {
+            Texture node = new Texture();
+            Debug.Assert(node != null);
+
+            return node;
         }
 
         protected override bool CompareNodes(DLink pLinkA, DLink pLinkB)
@@ -84,12 +93,11 @@ namespace SpaceInvaders
             return false;
         }
 
-        protected override DLink CreateNode()
+        public static void Destroy()
         {
-            Texture node = new Texture();
-            Debug.Assert(node != null);
-
-            return node;
+            TextureManager textureMan = TextureManager.GetInstance();
+            Debug.Assert(textureMan != null);
+            textureMan.BaseDestroy();
         }
     }
 }

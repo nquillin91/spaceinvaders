@@ -45,7 +45,7 @@ namespace SpaceInvaders.Nodes
             this.name = Name.Uninitialized;
         }
 
-        public override void DumpNode()
+        public override void Dump()
         {
             System.Diagnostics.Debug.WriteLine("Name: " + this.name + ", Texture:" + (this.poAzulTexture == null ? "Null" : "Texture Initialized"));
         }

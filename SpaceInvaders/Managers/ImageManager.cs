@@ -74,6 +74,14 @@ namespace SpaceInvaders
             return image;
         }
 
+        protected override DLink CreateNode()
+        {
+            Image image = new Image(Image.Name.Uninitialized);
+            Debug.Assert(image != null);
+
+            return image;
+        }
+
         protected override bool CompareNodes(DLink pLinkA, DLink pLinkB)
         {
             Debug.Assert(pLinkA != null);
@@ -90,12 +98,11 @@ namespace SpaceInvaders
             return false;
         }
 
-        protected override DLink CreateNode()
+        public static void Destroy()
         {
-            Image image = new Image(Image.Name.Uninitialized);
-            Debug.Assert(image != null);
-
-            return image;
+            ImageManager imageMan = ImageManager.GetInstance();
+            Debug.Assert(imageMan != null);
+            imageMan.BaseDestroy();
         }
     }
 }

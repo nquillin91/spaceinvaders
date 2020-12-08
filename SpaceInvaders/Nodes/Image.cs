@@ -53,7 +53,7 @@ namespace SpaceInvaders.Nodes
             this.pTexture = null;
         }
 
-        public override void DumpNode()
+        public override void Dump()
         {
             System.Diagnostics.Debug.WriteLine("Name: " + this.name +
                 ", Texture:" + (this.pTexture == null ? "Null" : this.pTexture.name.ToString()) +

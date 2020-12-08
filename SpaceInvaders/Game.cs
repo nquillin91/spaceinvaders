@@ -1,4 +1,6 @@
-﻿using SpaceInvaders.Nodes;
+﻿using SpaceInvaders.Managers;
+using SpaceInvaders.Nodes;
+using SpaceInvaders.Nodes.Sprites;
 using System;
 using System.Diagnostics;
 
@@ -6,23 +8,19 @@ namespace SpaceInvaders
 {
     class SpaceInvaders : Azul.Game
     {
-        Sprite pRedBirdSprite;
-        Sprite pWhiteBirdSprite;
-        Sprite pYellowBirdSprite;
-        Sprite pGreenBirdSprite;
-        Sprite pAlienSprite;
-        Sprite pAlienWhiteSprite;
-        Sprite pStitchSprite;
-        Sprite pAlienSwapSprite;
-        Sprite pAlien1Sprite;
-        Sprite pAlien2Sprite;
-        Sprite pAlien3Sprite;
-        Sprite pAlien4Sprite;
-        Sprite pAlien5Sprite;
-        Sprite pBird1Sprite;
-        Sprite pBird2Sprite;
-        Sprite pBird3Sprite;
-        Sprite pBird4Sprite;
+        GameSprite pRedBirdSprite;
+        GameSprite pWhiteBirdSprite;
+        GameSprite pYellowBirdSprite;
+        GameSprite pGreenBirdSprite;
+        GameSprite pAlienSprite;
+        GameSprite pAlienWhiteSprite;
+        GameSprite pStitchSprite;
+        GameSprite pAlienSwapSprite;
+        GameSprite pAlien1Sprite;
+        GameSprite pAlien2Sprite;
+        GameSprite pAlien3Sprite;
+        GameSprite pAlien4Sprite;
+        GameSprite pAlien5Sprite;
 
         float redSpeed = 2.0f;
         float yellowSpeedX = 2.0f;
@@ -53,7 +51,7 @@ namespace SpaceInvaders
         public override void Initialize()
         {
             // Game Window Device setup
-            this.SetWindowName("->Set Screen Title Name Here<-");
+            this.SetWindowName("Sprites!");
             this.SetWidthHeight(800, 600);
             this.SetClearColor(0.4f, 0.4f, 0.8f, 1.0f);
         }
@@ -68,7 +66,9 @@ namespace SpaceInvaders
 
             TextureManager.Create(5, 2);
             ImageManager.Create(5, 3);
-            SpriteManager.Create(20, 10);
+            GameSpriteManager.Create(20, 10);
+            BoxSpriteManager.Create(5, 2);
+            SpriteBatchManager.Create(5, 2);
 
             //---------------------------------------------------------------------------------------------------------
             // Load the Textures
@@ -106,58 +106,71 @@ namespace SpaceInvaders
             // Create Sprites
             //---------------------------------------------------------------------------------------------------------
 
-            pRedBirdSprite = SpriteManager.Add(Sprite.Name.RedBird, Image.Name.RedBird, 50.0f, 500.0f, 50.0f, 50.0f);
+            pRedBirdSprite = GameSpriteManager.Add(GameSprite.Name.RedBird, Image.Name.RedBird, 50.0f, 500.0f, 50.0f, 50.0f);
             Debug.Assert(pRedBirdSprite != null);
 
-            pWhiteBirdSprite = SpriteManager.Add(Sprite.Name.WhiteBird, Image.Name.WhiteBird, 600.0f, 200.0f, 50.0f, 50.0f);
+            pWhiteBirdSprite = GameSpriteManager.Add(GameSprite.Name.WhiteBird, Image.Name.WhiteBird, 600.0f, 200.0f, 50.0f, 50.0f);
             Debug.Assert(pWhiteBirdSprite != null);
 
-            pYellowBirdSprite = SpriteManager.Add(Sprite.Name.YellowBird, Image.Name.YellowBird, 300.0f, 400.0f, 100.0f, 100.0f);
+            pYellowBirdSprite = GameSpriteManager.Add(GameSprite.Name.YellowBird, Image.Name.YellowBird, 300.0f, 400.0f, 100.0f, 100.0f);
             Debug.Assert(pYellowBirdSprite != null);
 
-            pGreenBirdSprite = SpriteManager.Add(Sprite.Name.GreenBird, Image.Name.GreenBird, 400.0f, 200.0f, 75.0f, 75.0f);
+            pGreenBirdSprite = GameSpriteManager.Add(GameSprite.Name.GreenBird, Image.Name.GreenBird, 400.0f, 200.0f, 75.0f, 75.0f);
             Debug.Assert(pGreenBirdSprite != null);
 
-            pAlienSprite = SpriteManager.Add(Sprite.Name.AlienWhite, Image.Name.Alien2, 100.0f, 0.0f, 150.0f, 150.0f);
+            pAlienSprite = GameSpriteManager.Add(GameSprite.Name.Alien, Image.Name.Alien2, 100.0f, 0.0f, 150.0f, 150.0f);
             Debug.Assert(pAlienSprite != null);
 
-            pAlien1Sprite = SpriteManager.Add(Sprite.Name.AlienWhite, Image.Name.Alien1, 25.0f, 580.0f, 25.0f, 25.0f);
+            pAlien1Sprite = GameSpriteManager.Add(GameSprite.Name.Alien1, Image.Name.Alien1, 25.0f, 580.0f, 25.0f, 25.0f);
             Debug.Assert(pAlien1Sprite != null);
 
-            pAlien2Sprite = SpriteManager.Add(Sprite.Name.AlienWhite, Image.Name.Alien2, 75.0f, 580.0f, 25.0f, 25.0f);
+            pAlien2Sprite = GameSpriteManager.Add(GameSprite.Name.Alien2, Image.Name.Alien2, 75.0f, 580.0f, 25.0f, 25.0f);
             Debug.Assert(pAlien2Sprite != null);
 
-            pAlien3Sprite = SpriteManager.Add(Sprite.Name.AlienWhite, Image.Name.Alien3, 125.0f, 580.0f, 25.0f, 25.0f);
+            pAlien3Sprite = GameSpriteManager.Add(GameSprite.Name.Alien3, Image.Name.Alien3, 125.0f, 580.0f, 25.0f, 25.0f);
             Debug.Assert(pAlien3Sprite != null);
 
-            pAlien4Sprite = SpriteManager.Add(Sprite.Name.AlienWhite, Image.Name.Alien4, 175.0f, 580.0f, 25.0f, 25.0f);
+            pAlien4Sprite = GameSpriteManager.Add(GameSprite.Name.Alien4, Image.Name.Alien4, 175.0f, 580.0f, 25.0f, 25.0f);
             Debug.Assert(pAlien4Sprite != null);
 
-            pAlien5Sprite = SpriteManager.Add(Sprite.Name.AlienWhite, Image.Name.Alien5, 225.0f, 580.0f, 25.0f, 25.0f);
+            pAlien5Sprite = GameSpriteManager.Add(GameSprite.Name.Alien5, Image.Name.Alien5, 225.0f, 580.0f, 25.0f, 25.0f);
             Debug.Assert(pAlien5Sprite != null);
 
-            pBird1Sprite = SpriteManager.Add(Sprite.Name.RedBird, Image.Name.RedBird, 275.0f, 580.0f, 25.0f, 25.0f);
-            Debug.Assert(pBird1Sprite != null);
-
-            pBird2Sprite = SpriteManager.Add(Sprite.Name.WhiteBird, Image.Name.WhiteBird, 325.0f, 580.0f, 25.0f, 25.0f);
-            Debug.Assert(pBird2Sprite != null);
-
-            pBird3Sprite = SpriteManager.Add(Sprite.Name.YellowBird, Image.Name.YellowBird, 375.0f, 580.0f, 25.0f, 25.0f);
-            Debug.Assert(pBird3Sprite != null);
-
-            pBird4Sprite = SpriteManager.Add(Sprite.Name.GreenBird, Image.Name.GreenBird, 425.0f, 580.0f, 25.0f, 25.0f);
-            Debug.Assert(pBird4Sprite != null);
-
-            pAlienWhiteSprite = SpriteManager.Add(Sprite.Name.AlienWhite, Image.Name.Alien4, 500.0f, 300.0f, 150.0f, 150.0f);
+            pAlienWhiteSprite = GameSpriteManager.Add(GameSprite.Name.AlienWhite, Image.Name.Alien4, 500.0f, 300.0f, 150.0f, 150.0f);
             Debug.Assert(pAlienWhiteSprite != null);
             pAlienWhiteSprite.SwapColor(1.0f, 1.0f, 0.0f, 1.0f);
             
-            pStitchSprite = SpriteManager.Add(Sprite.Name.Stitch, Image.Name.Stitch, 150.0f, 500.0f, 100.0f, 100.0f);
+            pStitchSprite = GameSpriteManager.Add(GameSprite.Name.Stitch, Image.Name.Stitch, 150.0f, 500.0f, 100.0f, 100.0f);
             Debug.Assert(pStitchSprite != null);
 
-            pAlienSwapSprite = SpriteManager.Add(Sprite.Name.AlienSwap, Image.Name.Alien1, 300.0f, 300.0f, 150.0f, 150.0f);
+            pAlienSwapSprite = GameSpriteManager.Add(GameSprite.Name.AlienSwap, Image.Name.Alien1, 300.0f, 300.0f, 150.0f, 150.0f);
             Debug.Assert(pAlienSwapSprite != null);
             pAlienSwapSprite.SwapColor(1.0f, 1.0f, 0.0f, 1.0f);
+
+            BoxSpriteManager.Add(BoxSprite.Name.Box1, 550.0f, 500.0f, 50.0f, 150.0f);
+            BoxSpriteManager.Add(BoxSprite.Name.Box2, 550.0f, 100.0f, 50.0f, 100.0f, new Azul.Color(1.0f, 1.0f, 0.0f));
+
+            SpriteBatchManager.Add(SpriteBatch.Name.Birds, 5, 3, 2);
+            SpriteBatchManager.Add(SpriteBatch.Name.Aliens, 5, 3, 150);
+            SpriteBatchManager.Add(SpriteBatch.Name.Boxes, 5, 3, 100);
+            SpriteBatchManager.Add(SpriteBatch.Name.Stitch, 5, 3, 1);
+
+            SpriteBatchManager.Attach(SpriteBatch.Name.Birds, GameSprite.Name.RedBird);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Birds, GameSprite.Name.RedBird);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Birds, GameSprite.Name.WhiteBird);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Birds, GameSprite.Name.YellowBird);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Birds, GameSprite.Name.GreenBird);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Stitch, GameSprite.Name.Stitch);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Boxes, BoxSprite.Name.Box1);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Boxes, BoxSprite.Name.Box2);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.Alien);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.Alien1);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.Alien2);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.Alien3);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.Alien4);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.Alien5);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.AlienWhite);
+            SpriteBatchManager.Attach(SpriteBatch.Name.Aliens, GameSprite.Name.AlienSwap);
 
             //---------------------------------------------------------------------------------------------------------
             // Demo variables
@@ -186,6 +199,9 @@ namespace SpaceInvaders
             // Change Texture, TextureRect, Color
             //--------------------------------------------------------
 
+            BoxSprite box1 = BoxSpriteManager.Find(BoxSprite.Name.Box1);
+            BoxSprite box2 = BoxSpriteManager.Find(BoxSprite.Name.Box2);
+
             count++;
             if (count == 100)
             {
@@ -198,10 +214,7 @@ namespace SpaceInvaders
                 pAlien4Sprite.x += 5;
                 pAlien5Sprite.x += 5;
 
-                pBird1Sprite.x += 5;
-                pBird2Sprite.x += 5;
-                pBird3Sprite.x += 5;
-                pBird4Sprite.x += 5;
+                box1.SwapColor(1.0f, 0.0f, 0.0f, 1.0f);
             }
             else if (count == 200)
             {
@@ -209,9 +222,13 @@ namespace SpaceInvaders
 
                 pAlienSprite.SwapImage(ImageManager.Find(Image.Name.Alien2));
 
+                box1.SwapColor(0.0f, 1.0f, 0.0f, 1.0f);
+
                 count = 0;
             }
-        
+
+            box1.Update();
+            box2.Update();
 
             //--------------------------------------------------------
             // Alien - Angles,position
@@ -339,11 +356,6 @@ namespace SpaceInvaders
             pAlien3Sprite.Update();
             pAlien4Sprite.Update();
             pAlien5Sprite.Update();
-
-            pBird1Sprite.Update();
-            pBird2Sprite.Update();
-            pBird3Sprite.Update();
-            pBird4Sprite.Update();
         }
 
         //-----------------------------------------------------------------------------
@@ -355,25 +367,7 @@ namespace SpaceInvaders
         public override void Draw()
         {
             // draw all objects
-            pAlienSprite.Render();
-            pStitchSprite.Render();
-            pAlienWhiteSprite.Render();
-            pAlienSwapSprite.Render();
-            pGreenBirdSprite.Render();
-            pRedBirdSprite.Render();
-            pWhiteBirdSprite.Render();
-            pYellowBirdSprite.Render();
-
-            pAlien1Sprite.Render();
-            pAlien2Sprite.Render();
-            pAlien3Sprite.Render();
-            pAlien4Sprite.Render();
-            pAlien5Sprite.Render();
-
-            pBird1Sprite.Render();
-            pBird2Sprite.Render();
-            pBird3Sprite.Render();
-            pBird4Sprite.Render();
+            SpriteBatchManager.Draw();
         }
 
         //-----------------------------------------------------------------------------
@@ -383,9 +377,11 @@ namespace SpaceInvaders
         //-----------------------------------------------------------------------------
         public override void UnLoadContent()
         {
-
+            SpriteBatchManager.Destroy();
+            GameSpriteManager.Destroy();
+            ImageManager.Destroy();
+            TextureManager.Destroy();
         }
-
     }
 }
 
